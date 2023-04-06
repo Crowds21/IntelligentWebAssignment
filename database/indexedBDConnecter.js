@@ -1,7 +1,7 @@
-const handleUpgrade = (ev) => {
-    const db = ev.target.result
-    db.createObjectStore("tasks", {keyPath: "id", autoIncrement: true})
-}
+// const handleUpgrade = (ev) => {
+//     const db = ev.target.result
+//     db.createObjectStore({keyPath: "id", autoIncrement: true})
+// }
 
 const handleSuccess = () => {
 
@@ -15,19 +15,6 @@ indexDB.addEventListener("success", handleSuccess)
 indexDB.addEventListener("error", (err) => {
 
 })
-
-
-function createStore(storeName, jsonObject) {
-
-}
-
-async function add(storeName, jsonObject, onSuccess) {
-    const db = indexDB.result
-    const transaction = db.transaction([index_name], "readwrite")
-    const dbStore = transaction.objectStore(storeName)
-    const addRequest = dbStore.add(jsonObject)
-    addRequest.addEventListener("success", onSuccess)
-}
 
 
 

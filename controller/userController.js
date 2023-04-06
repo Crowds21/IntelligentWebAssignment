@@ -1,42 +1,33 @@
 let UserModel = require('../model/userModel')
+let UserController = require('../controller/userController')
 
-exports.createUser = async function (req, res) {
-    let userData = req.body
-    let userId = generateUserId();
-    let deviceId = generateDeviceId();
-    let user = new UserModel({
-        user_id: userId,
-        user_name: userData.user_name,
-        device_id: deviceId
-    })
-    await saveUser(user, req, res)
-}
+class UserController extends BasicController {
+    async createUserInMongo(req, res) {
+        let userData = req.body
 
-exports.updateUser = async function (req, res) {
-    let userData = req.body
-    try {
-        const result = await UserModel.updateOne(
+        // Operating the database (MongoDB / IndexedDB)
+        let userId = generateUserId();
+        let deviceId = generateDeviceId();
+        let user = new UserModel({
+            user_id: userId,
+            user_name: userData.user_name,
+            device_id: deviceId
+        })
+        await this.saveModel(user, req, res)
+        // UPDATE UI
+
+        //
+    }
+
+    async updateUserInMongo(req, res) {
+        let userData = req.body
+        await this.updateModel(UserModel, req, res,
             {user_id: userData.user_id},
             {$set: {user_name: userData.user_name}}
-        );
-        res.status(200).send('Update Success')
-    } catch (err) {
-        res.status(500).send('Invalid data!')
-        console.error(err);
+        )
     }
 }
 
-
-// TODO extend
-async function saveUser(model, req, res) {
-    try {
-        await model.save()
-        res.setHeader('Content-Type', 'application/json')
-        res.json({user: user})
-    } catch (err) {
-        res.status(500).send('Invalid data!')
-    }
-}
 
 function generateUserId() {
 
@@ -45,3 +36,6 @@ function generateUserId() {
 function generateDeviceId() {
 
 }
+
+userController = new UserController()
+module.exports = userController
