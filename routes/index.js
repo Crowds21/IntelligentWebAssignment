@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/setUser', function (req,res){
-  userController.createUser(req, res).then(r =>{
+  userController.createUserInMongo(req, res).then(r =>{
 
   })
 })
