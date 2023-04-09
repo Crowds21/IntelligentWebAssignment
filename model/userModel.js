@@ -10,7 +10,7 @@ let UserSchema = new Schema(
     }
 )
 
-UserSchema.set('toObject', {getters: true, virtuals: true});
+UserSchema.set('toObject', {getters: true});
 
 module.exports = mongoose.model('user',UserSchema)
 
