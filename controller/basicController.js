@@ -2,19 +2,23 @@ module.exports = {
     async saveModel(model, req, res) {
         // The return type of save() is a Promise
         model.save().then(() => {
-            res.status(200).send({code: 0, msg: 'Success'})
+            return {code: 0, msg: 'Success'}
         }).catch(err => {
-            res.status(500).send({code: 1, msg: err.message})
+            return {code: 1, msg: err.message}
         })
     },
 
     async updateModel(model, req, res, filter, update) {
         model.updateOne(filter, update).then(() => {
-            res.status(200).send({code: 0, msg: 'Success'})
+            return {code: 0, msg: 'Success'}
         }).catch(err => {
-            res.status(500).send({code: 1, msg: err.message})
+            return {code: 1, msg: err.message}
         })
     },
+
+
+
+
 
     async addStore(storeName, jsonObject, onSuccess) {
         const db = indexDB.result
@@ -48,10 +52,13 @@ module.exports = {
      * @param db
      * @param storeName
      */
+
     isStoreExist(db, storeName) {
         if (!db.objectStoreNames.contains(storeName)) {
             db.createObjectStore(storeName, {keyPath: "id", autoIncrement: true})
         }
     }
+
+
 };
 
