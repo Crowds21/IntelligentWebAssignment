@@ -3,6 +3,7 @@ const basicController = require('./basicController');
 
 async function createUserInMongo(req, res) {
     let userData = req.body
+    // Mock Data
     userData = {
         user_name: 'crowds'
     }
@@ -14,6 +15,7 @@ async function createUserInMongo(req, res) {
         user_name: userData.user_name,
         device_id: deviceId
     })
+    console.log(user)
     await basicController.saveModel(user, req, res)
 }
 
@@ -51,7 +53,7 @@ function generateRandomString(){
     for (let i = 0; i < 5; i++) {
         randomStr += characters.charAt(Math.floor(Math.random() * characters.length));
     }
-    return dateStr + '-' + randomStr;
+    return '-' + dateStr + '-' + randomStr;
 }
 
 module.exports = {createUserInMongo, updateUserInMongo};
