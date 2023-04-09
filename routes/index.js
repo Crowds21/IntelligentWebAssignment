@@ -6,7 +6,9 @@ var userController = require('../controller/userController')
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
-
+router.get('/detail', function(req, res, next) {
+  res.render('detail', { title: 'Sighting Detail' });
+});
 router.post('/setUser', function (req,res){
   userController.createUserInMongo(req, res).then(r =>{
 
