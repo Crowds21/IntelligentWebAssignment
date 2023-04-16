@@ -16,10 +16,6 @@ module.exports = {
         })
     },
 
-
-
-
-
     async addStore(storeName, jsonObject, onSuccess) {
         const db = indexDB.result
         this.isStoreExist(storeName)
@@ -52,7 +48,6 @@ module.exports = {
      * @param db
      * @param storeName
      */
-
     isStoreExist(db, storeName) {
         if (!db.objectStoreNames.contains(storeName)) {
             db.createObjectStore(storeName, {keyPath: "id", autoIncrement: true})
