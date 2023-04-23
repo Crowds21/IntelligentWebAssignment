@@ -1,5 +1,4 @@
 let UserModel = require('../model/userModel')
-const basicController = require('./basicController');
 
 async function createUserInMongo(req, res) {
     let userData = req.body
@@ -21,16 +20,16 @@ async function createUserInMongo(req, res) {
 
 async function createUserInLocal(username) {
     let data = {username: username}
-    const user_store = basicController.user_store
-    await basicController.addStore(user_store, data)
+    // const user_store = basicController.user_store
+    // await basicController.addStore(user_store, data)
 }
 
 async function updateUserInMongo(req, res) {
     let userData = req.body
-    await basicController.updateModel(UserModel, req, res,
-        {user_id: userData.user_id},
-        {$set: {user_name: userData.user_name}}
-    )
+    // await basicController.updateModel(UserModel, req, res,
+    //     {user_id: userData.user_id},
+    //     {$set: {user_name: userData.user_name}}
+    // )
 }
 
 

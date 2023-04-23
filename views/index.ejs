@@ -84,11 +84,11 @@
         <% records.forEach(function(record) { %>
             <div class="col-md-4">
                 <div class="card mb-3">
-                    <img src="<%= record.img %>" class="card-img-top" alt="<%= record.birdname %>">
+                    <img src="<%= record.image %>" class="card-img-top" alt="<%= record.identification %>">
                     <div class="card-body">
-                        <h5 class="card-title"><%= record.birdName %></h5>
-                        <p class="card-username">By <%= record.username %> </p>
-                        <p class="card-date"> <%= record.dateTime %></p>
+                        <h5 class="card-title"><%= record.identification%></h5>
+                        <p class="card-username">By <%= record.user_name %> </p>
+                        <p class="card-date"> <%= record.date %></p>
                     </div>
                 </div>
             </div>

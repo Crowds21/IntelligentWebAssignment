@@ -1,18 +1,23 @@
 const SightModel = require("../model/sightModel");
-const basicController = require("./basicController");
 
-async function createSightInMongo(req, res) {
-    let sightData= req.body
-    let user = new SightModel({
-        sight_id : sightData.sight_id,
+async function insertSight(sightData) {
+    let sight = new SightModel({
+        identification: sightData.identification,
         description: sightData.description,
-        date : sightData.date,
-        user_name : sightData.user_name,
-        location :sightData.location,
-        image : sightData.image
+        date: sightData.date,
+        user_name: sightData.user_name,
+        location: sightData.location,
+        image: sightData.image
     })
-    await basicController.saveModel(user, req, res)
+    let result = await sight.save()
+    console.log(result)
 }
+
+async function getSightList() {
+    let data = SightModel.find({})
+    return data
+}
+
 async function getSightsByLocation(model, currentLocation) {
     const allSights = await model.find();
     const sightsWithDistance = allSights.map(sight => {
@@ -28,10 +33,12 @@ async function getSightsByLocation(model, currentLocation) {
 
     return sortedSights;
 }
+
 async function getSightsByDate(model) {
     const sights = await model.find().sort({date: 1});
     return sights
 }
+
 
 
 function calculateDistance(location1, location2) {
@@ -39,4 +46,23 @@ function calculateDistance(location1, location2) {
     // ...
 }
 
-module.exports = {createSightInMongo, getSightsByDate, getSightsByLocation}
+function initSightCollection(){
+    let data = {
+        identification: "unknown",
+        description: "This is a description",
+        date: "2023-02-03 ",
+        user_name: "crowds",
+        location: "Sheffield",
+        image: "https://picsum.photos/100"
+    }
+    insertSight(data).then(it =>{
+
+    })
+}
+
+module.exports = {
+    getSightList,
+    insertSight,
+    getSightsByDate,
+    getSightsByLocation
+}
