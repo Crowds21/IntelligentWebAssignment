@@ -19,6 +19,10 @@ async function getSightList() {
     return data
 }
 
+async function getSightById(id){
+    SightModel.findById(id)
+}
+
 async function getSightsByLocation(model, currentLocation) {
     const allSights = await model.find();
     const sightsWithDistance = allSights.map(sight => {
