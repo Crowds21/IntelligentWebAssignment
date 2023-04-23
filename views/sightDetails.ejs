@@ -11,14 +11,14 @@
 <div class="card mb-3 h-auto" style="max-width: 100%;">
     <div class="row no-gutters">
         <div class="col-md-4">
-            <img src="<%= detail.image %>" class="card-img" alt="Bird" height="300" width="150">
+            <img src="<%= record.image %>" class="card-img" alt="Bird" height="300" width="150">
         </div>
         <div class="col-md-8">
             <div class="card-body">
-                <h5 class="card-title"><%= detail.identification %></h5>
+                <h5 class="card-title"><%= record.identification %></h5>
                 <p class="card-text">
-                    <span class="datetime"><%= detail.date %></span><br>
-                    <span class="username"><%= detail.user_name %></span>
+                    <span class="datetime"><%= record.date %></span><br>
+                    <span class="username"><%= record.user_name %></span>
                 </p>
             </div>
         </div>
@@ -31,19 +31,19 @@
             <tbody>
             <tr>
                 <th scope="row"><h4>Location:</h4></th>
-                <td class="text-right"><%= detail.location %></td>
+                <td class="text-right"><%= record.location %></td>
             </tr>
             <tr>
                 <th scope="row"><h4>Describe:</h4></th>
-                <td class="text-left"><%= detail.description %></td>
+                <td class="text-left"><%= record.description %></td>
             </tr>
             <tr>
                 <th scope="row"><h4>Identification:</h4></th>
-                <td class="text-left"><%= detail.identification %></td>
+                <td class="text-left"><%= record.identification %></td>
             </tr>
             <tr>
                 <th scope="row"><h4>Wiki:</h4></th>
-                <td class="text-left"><%= detail.wiki %></td>
+                <td class="text-left"><%= record.wiki %></td>
             </tr>
             </tbody>
         </table>

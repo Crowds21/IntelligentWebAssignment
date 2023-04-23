@@ -19,8 +19,13 @@ async function getSightList() {
     return data
 }
 
+async function getSightListByDateDesc(){
+    let data = SightModel.find().sort({date: -1})
+    return data;
+}
 async function getSightById(id){
-    SightModel.findById(id)
+    let data = SightModel.findById(id);
+    return data
 }
 
 async function getSightsByLocation(model, currentLocation) {
@@ -104,5 +109,7 @@ module.exports = {
     insertSight,
     getSightsByDate,
     getSightsByLocation,
-    initSightCollection
+    initSightCollection,
+    getSightById,
+    getSightListByDateDesc
 }
