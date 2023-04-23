@@ -11,4 +11,4 @@ let ChatSchema= new Schema(
 
 ChatSchema.set('toObject', {getters: true, virtuals: true});
 
-module.exports= mongoose.model('chat', ChatSchema)
+module.exports= mongoose.model('chat', ChatSchema,"chats")
