@@ -16,6 +16,10 @@ router.post('/setUser', function (req, res) {
     })
 });
 
+router.post('/saveSighting', function (req, res) {
+    sightController.insertSight(req.body).then( r => {
+    })
+});
 
 
 module.exports = router;
