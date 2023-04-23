@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Details</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+</head>
+<body>
+<div class="card mb-3 h-auto" style="max-width: 100%;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="<%= detail.image %>" class="card-img" alt="Bird" height="300" width="150">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title"><%= detail.identification %></h5>
+                <p class="card-text">
+                    <span class="datetime"><%= detail.date %></span><br>
+                    <span class="username"><%= detail.user_name %></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main">
+    <div class="left">
+        <table class="table table-borderless">
+            <tbody>
+            <tr>
+                <th scope="row"><h4>Location:</h4></th>
+                <td class="text-right"><%= detail.location %></td>
+            </tr>
+            <tr>
+                <th scope="row"><h4>Describe:</h4></th>
+                <td class="text-left"><%= detail.description %></td>
+            </tr>
+            <tr>
+                <th scope="row"><h4>Identification:</h4></th>
+                <td class="text-left"><%= detail.identification %></td>
+            </tr>
+            <tr>
+                <th scope="row"><h4>Wiki:</h4></th>
+                <td class="text-left"><%= detail.wiki %></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <div class="right">
+        <hr>
+        <% for (let i = 0; i < messages.length; i++) { %>
+            <div class="message">
+                <div class="username"><%= messages[i].username %></div>
+                <div class="datetime"><%= messages[i].date %></div>
+                <div class="content"><%= messages[i].content %></div>
+            </div>
+        <% } %>
+    </div>
+</div>
+</body>
+</html>
