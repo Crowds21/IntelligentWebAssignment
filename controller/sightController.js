@@ -1,5 +1,6 @@
 const SightModel = require("../model/sightModel");
 const Multer = require('multer');
+const ObjectId = require('mongodb').ObjectId;
 
 async function insertSight(sightData) {
     let sight = new SightModel({
@@ -19,12 +20,14 @@ async function getSightList() {
     return data
 }
 
-async function getSightListByDateDesc(){
+async function getSightListByDateDesc() {
     let data = SightModel.find().sort({date: -1})
     return data;
 }
-async function getSightById(id){
-    let data = SightModel.findById(id);
+
+async function getSightById(id) {
+    let data_id = new ObjectId(id)
+    let data  = SightModel.findById(data_id)
     return data
 }
 
@@ -76,13 +79,13 @@ async function initSightCollection() {
     ]
     let len = await SightModel.find({}).length
     if (len == 0) {
-        SightModel.insertMany(data).then(()=>{
+        SightModel.insertMany(data).then(() => {
             console.log("Init Successfully")
         })
     }
 }
 
-function parseImage(){
+function parseImage() {
     let storage = Multer.diskStorage({
         // 指定上传文件的保存目录
         destination: function (req, file, cb) {

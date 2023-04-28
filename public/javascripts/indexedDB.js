@@ -1,29 +1,47 @@
 const user_store = "user"
 const sight_store = "bird"
 const index_name = "bird_sight"
-const handleSuccess = () => {
-
-}
-
-const handleUpgrade = () => {
-
+const index_version = 3
+const handleSuccess = async (event) => {
+    console.log("Open indexedDB successfully")
 }
 
 
-const indexDB = indexedDB.open(index_name)
-indexDB.addEventListener("upgradeneeded", handleUpgrade)
-indexDB.addEventListener("success", handleSuccess)
+const handleUpgrade = (event) => {
+    let db = event.target.result;
+    if (!db.objectStoreNames.contains(user_store)) {
+        db.createObjectStore(user_store, {keyPath: "id", autoIncrement: true})
+    }
+    if (!db.objectStoreNames.contains(sight_store)) {
+        db.createObjectStore(sight_store, {keyPath: "id", autoIncrement: true})
+    }
+    console.log("Upgrade indexedDB successfully")
+}
+
+
+const indexDB = indexedDB.open(index_name, index_version)
+indexDB.addEventListener("upgradeneeded", event => {
+    handleUpgrade(event)
+})
+indexDB.addEventListener("success", event => {
+    handleSuccess(event)
+})
 indexDB.addEventListener("error", (err) => {
 
 })
 
-function addStore(storeName, jsonObject) {
-    const db = indexDB.result
-    isStoreExist(storeName)
-    const transaction = db.transaction([storeName], "readwrite")
-    const dbStore = transaction.objectStore(storeName)
-    const addRequest = dbStore.add(jsonObject)
+function getStore(storeName, mode) {
+    let db = indexDB.result
+    const transaction = db.transaction([storeName], mode)
+    return transaction.objectStore(storeName)
+}
 
+
+async function insertToStore(storeName, jsonObject) {
+    const db = indexDB.result
+    const transaction = db.transaction([storeName], mode)
+    let dbStore = transaction.objectStore(storeName)
+    const addRequest = dbStore.add(jsonObject)
     addRequest.onsuccess = (event) => {
         console.log(event)
     }
@@ -31,49 +49,42 @@ function addStore(storeName, jsonObject) {
         console.log(err)
     }
     transaction.commit()
+    console.log("Insert Successfully")
 }
 
-function getStore(storeName, key) {
-    const db = indexDB.result
-    isStoreExist(storeName)
-    const transaction = db.transaction([storeName], "readonly")
-    const dbStore = transaction.objectStore(storeName)
-    const getRequest = dbStore.get(key)
+
+async function isUserExist() {
+    let dbStore = await getStore(user_store, "readonly")
+    const getRequest = dbStore.get(1);
     return new Promise((resolve, reject) => {
         getRequest.onsuccess = (event) => {
-            const result = event.target.result
-            if (result) {
-                resolve(result.value)
-            } else {
-                resolve(null)
-            }
-        }
+            const username = event.target.result;
+            resolve(username);
+        };
         getRequest.onerror = (event) => {
-            reject(event.target.error)
+            reject(event.target.error);
+        };
+    });
+}
+
+async function updateUser(username) {
+    // Get the user first.
+    // Otherwise, it will close the transaction you created
+    const user = await isUserExist()
+    const db = indexDB.result
+    const transaction = db.transaction(user_store, "readwrite")
+    const dbStore = transaction.objectStore(user_store)
+    if (user) {
+        user.username = username;
+        const putRequest = await dbStore.put(user);
+        putRequest.onsuccess = (event) => {
+            console.log(event)
         }
-    })
-
-}
-
-
-/**
- * Check if a store exists in the database, create it if it doesn't exist.
- * @param db
- * @param storeName
- */
-function isStoreExist(db, storeName) {
-    if (!db.objectStoreNames.contains(storeName)) {
-        db.createObjectStore(storeName, {keyPath: "id", autoIncrement: true})
+    } else {
+        const addRequest = await dbStore.add({username: username});
+        addRequest.onsuccess = (event) => {
+            console.log(event)
+        }
     }
+    transaction.commit()
 }
-
-function isFirstTime(username) {
-    // Find user in indexedDB
-    getStore(user_store, username).then(user => {
-        return Promise.resolve(!user);
-    }).catch(error => {
-        console.error(error);
-        return Promise.reject(error);
-    })
-}
-
