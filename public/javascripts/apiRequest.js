@@ -44,10 +44,42 @@ async function addSight() {
         });
 }
 
-async function sortByDate(){
-    const response = await fetch('/sortByDate', { method: 'GET' })
+async function sortByDate() {
+    const response = await fetch('/sortByDate', {method: 'GET'})
     const stringPromise = response.text();
     document.write(await stringPromise);
 
 }
 
+async function getDetails(event) {
+    let id = event.currentTarget.id
+    const response = await fetch('/sightDetails/' + id, {method: 'GET'})
+    const stringPromise = response.text();
+    document.write(await stringPromise);
+}
+
+
+// let elements = document.getElementsByClassName("home-page-sight-card")
+// for (let i = 0; i < elements.length; i++) {
+//     console.log(i)
+//     elements[i].addEventListener("click", function (event) {
+//         // 在这里添加事件处理逻辑
+//         getDetails(event).then(r => {
+//             console.log("Details Page")
+//         })
+//     });
+// }
+
+window.addEventListener('online', async () => {
+    console.log('Network reconnected');
+
+    // 获取当前 Service Worker 注册
+    const registration = await navigator.serviceWorker.getRegistration();
+
+    if (registration) {
+        // 强制更新 Service Worker
+        registration.update().then(() => {
+            console.log('Service Worker updated');
+        });
+    }
+});
