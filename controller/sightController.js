@@ -27,14 +27,14 @@ async function getSightListByDateDesc() {
 
 async function getSightById(id) {
     let data_id = new ObjectId(id)
-    let data  = SightModel.findById(data_id)
+    let data = SightModel.findById(data_id)
     return data
 }
 
 async function getSightsByLocation(model, currentLocation) {
     const allSights = await model.find();
     const sightsWithDistance = allSights.map(sight => {
-        const distance = calculateDistance(currentLocation, sight.location);
+        const distance = calculateDistance(currentLocation, sight.loc);
         return {sight, distance};
     });
 
@@ -53,11 +53,36 @@ async function getSightsByDate(model) {
 }
 
 
-function calculateDistance(location1, location2) {
-    // Implement the distance calculation between two locations
-    // ...
+function calculateDistance(currentLocation, sightLocation) {
+    lat1 = currentLocation.lat
+    lon1 = currentLocation.lon
+    lat2 = sightLocation.lat
+    lon2 = sightLocation.lon
+    if (lat1 === lat2 && lon1 === lon2) {
+        return 0;
+    } else {
+        var radlat1 = Math.PI * lat1 / 180;
+        var radlat2 = Math.PI * lat2 / 180;
+        var theta = lon1 - lon2;
+        var radtheta = Math.PI * theta / 180;
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        if (dist > 1) {
+            dist = 1;
+        }
+        dist = Math.acos(dist);
+        dist = dist * 180 / Math.PI;
+        dist = dist * 60 * 1.1515;
+        // KM
+        dist = dist * 1.609344
+        return dist;
+    }
 }
 
+/**
+ * Initialize the database and insert data into it,
+ * so that testing can be carried out during the development process.
+ * @returns {Promise<void>}
+ */
 async function initSightCollection() {
     let data = [
         {
@@ -66,6 +91,10 @@ async function initSightCollection() {
             date: "2023-02-03 ",
             user_name: "crowds",
             location: "Sheffield",
+            loc: {
+                lat: 53.38101,
+                lng: -1.46831
+            },
             image: "https://picsum.photos/100"
         },
         {
@@ -74,17 +103,27 @@ async function initSightCollection() {
             date: "2023-02-03 ",
             user_name: "crowds",
             location: "Sheffield",
+            loc: {
+                lat: 53.38101,
+                lng: -1.46831
+            },
             image: "https://picsum.photos/100"
         }
     ]
-    let len = await SightModel.find({}).length
-    if (len == 0) {
-        SightModel.insertMany(data).then(() => {
-            console.log("Init Successfully")
-        })
-    }
+    SightModel.find({}).countDocuments((err, count) => {
+        if (err) {
+            console.log(err);
+        } else {
+            if (count === 0) {
+                SightModel.insertMany(data).then(() => {
+                    console.log("Init Successfully")
+                })
+            }
+        }
+    })
 }
 
+// TODO
 function parseImage() {
     let storage = Multer.diskStorage({
         // 指定上传文件的保存目录
@@ -106,6 +145,8 @@ function parseImage() {
     var upload = multer({storage: storage});
 
 }
+
+
 
 module.exports = {
     getSightList,

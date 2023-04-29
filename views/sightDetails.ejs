@@ -34,7 +34,22 @@
             <tbody>
             <tr>
                 <th scope="row"><h4>Location:</h4></th>
-                <td class="text-right"><%= record.location %></td>
+                <td class="text-left">
+                    <div><%= record.location %></div>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><h4>Map:</h4></th>
+                <td class="text-left">
+                    <iframe id="iframe-record-map"
+                            data-record-lat="<%= record.loc.lat %>"
+                            data-record-lng="<%= record.loc.lng %>"
+                            width="300"
+                            height="300"
+                            frameborder="0" style="border:0"
+                            src=" " allowfullscreen>
+                    </iframe>
+                </td>
             </tr>
             <tr>
                 <th scope="row"><h4>Describe:</h4></th>

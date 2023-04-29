@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Map</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAM-bshugA-Y5IFRz4k18zWvxsntiU4sqs&callback=initMap"
+            async defer></script>
+    <!--    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAM-bshugA-Y5IFRz4k18zWvxsntiU4sqs&libraries=places"></script>-->
+    <script src="/javascripts/location.js"></script>
+</head>
+<body>
+<h3>My Google Maps Demo</h3>
+<!--In detailsPage-->
+<iframe id = "iframe-sight-map"
+        width="300"
+        height="300"
+        frameborder="0" style="border:0"
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAM-bshugA-Y5IFRz4k18zWvxsntiU4sqs
+        &q=53.3846,-1.4668" allowfullscreen>
+</iframe>
+<!--In create details-->
+<div id="map" style="height: 300px; width: 300px;"></div>
+
+<script>
+
+
+</script>
+</body>
+
+</html>

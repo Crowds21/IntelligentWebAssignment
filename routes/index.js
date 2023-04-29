@@ -10,7 +10,9 @@ router.get('/', async function (req, res, next) {
     let data = await sightController.getSightList()
     res.render('index', {records: data});
 });
-
+router.get('/maps', function (req, res, next) {
+    res.render('maps')
+})
 router.get('/sortByDate', async function (req, res, next) {
     let data = await sightController.getSightListByDateDesc()
     console.log(data)
