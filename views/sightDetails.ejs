@@ -10,12 +10,12 @@
     <script type="text/javascript" src="/javascripts/details.js" defer></script>
 </head>
 <body onload="initPage()">
-<% include ../public/partials/navbar.ejs %>
+<%- include ('./navbar.ejs') %>
 
 <div class="card mb-3 h-auto" style="max-width: 100%;">
     <div class="row no-gutters">
         <div class="col-md-4">
-            <img src="<%= record.image %>" class="card-img" alt="Bird" height="300" width="150">
+            <img src="/uploads/<%= record.image %>" class="card-img" alt="Bird" height="300" width="150">
         </div>
         <div class="col-md-8">
             <div class="card-body">

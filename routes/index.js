@@ -3,10 +3,32 @@ var router = express.Router();
 var userController = require('../controller/userController')
 var sightController = require('../controller/sightController')
 const {response} = require("express");
+const multer = require("multer");
+
+var storage = multer.diskStorage({
+    // 指定上传文件的保存目录
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads/');
+    },
+    // 指定上传文件的保存名称
+    filename: function (req, file, cb) {
+        // 获取上传文件的原始名称
+        var original = file.originalname;
+        // 获取上传文件的扩展名
+        var file_extension = original.split(".");
+        // 将文件名设置为当前日期加上扩展名
+        let filename = Date.now() + '.' + file_extension[file_extension.length - 1];
+        cb(null, filename);
+    }
+});
+// 创建一个 multer 对象，指定文件的保存方式
+var upload = multer({storage: storage});
+
+
 /* GET home page. */
 router.get('/', async function (req, res, next) {
     console.log("UrlPath: /")
-    await sightController.initSightCollection()
+    // await sightController.initSightCollection()
     let data = await sightController.getSightList()
     res.render('index', {records: data});
 });
@@ -40,8 +62,8 @@ router.post('/setUser', function (req, res) {
     })
 });
 
-router.post('/saveSighting', function (req, res) {
-    sightController.insertSight(req.body).then(r => {
+router.post('/saveSighting',upload.single('image'),async function (req, res) {
+    sightController.insertSight(req).then(r => {
         res.send({
             message: "success",
         });

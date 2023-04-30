@@ -11,26 +11,24 @@
 
 async function addSight() {
     const date = document.getElementById('date').value;
-    const location = document.getElementById('location').value;
     const description = document.getElementById('description').value;
     const identification = document.getElementById('identification').value;
     const image = document.getElementById('image').files[0];
+    const loc = {"lat":sessionStorage.getItem("lat"), "lng":sessionStorage.getItem("lng")}
+    const userExist = await isUserExist();
+    const username = userExist.username;
 
-    const sightData = {
-        identification: identification,
-        description: description,
-        date: date,
-        user_name: 'your_username', // Update with your own username
-        location: location,
-        image: image
-    };
+    const sightData = new FormData();
+    sightData.append('date', date);
+    sightData.append('description', description);
+    sightData.append('identification', identification);
+    sightData.append('image', image);
+    sightData.append('user_name', username);
+    sightData.append('loc', JSON.stringify(loc));
 
     await fetch('/saveSighting', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(sightData)
+        body: sightData
     })
         .then(data => {
             console.log(data);

@@ -26,6 +26,8 @@ function initMap() {
     google.maps.event.addListener(marker, "dragend", (event) => {
         const lat = event.latLng.lat();
         const lng = event.latLng.lng();
+        sessionStorage.setItem("lat", lat);
+        sessionStorage.setItem("lng", lng);
         console.log(`Latitude: ${lat}, Longitude: ${lng}`);
     });
 }

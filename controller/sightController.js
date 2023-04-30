@@ -1,15 +1,17 @@
 const SightModel = require("../model/sightModel");
 const Multer = require('multer');
 const ObjectId = require('mongodb').ObjectId;
-
-async function insertSight(sightData) {
+const path = require('path');
+async function insertSight(req) {
+    var sightData = req.body;
     let sight = new SightModel({
         identification: sightData.identification,
         description: sightData.description,
         date: sightData.date,
         user_name: sightData.user_name,
         location: sightData.location,
-        image: sightData.image
+        loc:JSON.parse(sightData.loc),
+        image: path.basename(req.file.path)
     })
     let result = await sight.save()
     console.log(result)
@@ -128,7 +130,7 @@ function parseImage() {
     let storage = Multer.diskStorage({
         // 指定上传文件的保存目录
         destination: function (req, file, cb) {
-            cb(null, 'uploads/');
+            cb(null, 'public/uploads/');
         },
         // 指定上传文件的保存名称
         filename: function (req, file, cb) {
@@ -155,5 +157,5 @@ module.exports = {
     getSightsByLocation,
     initSightCollection,
     getSightById,
-    getSightListByDateDesc
+    getSightListByDateDesc,
 }

@@ -5,10 +5,10 @@ const SightSchema = mongoose.Schema({
     description: {type: String, required: true},
     date: {type: String, required: true},
     user_name: {type: String, required: true},
-    location: {type: String, required: true},
+    location: {type: String, required: false},
     loc: {
-        lat: Number,
-        lng: Number,
+        lat: String,
+        lng: String,
         required: false
     },
     // lat: {type: Float32Array, required: false},

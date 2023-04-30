@@ -23,10 +23,20 @@
     <script src="/javascripts/workerRegister.js"></script>
     <!--Load indexedDB first-->
     <script type="text/javascript" src="/javascripts/index.js" defer></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAM-bshugA-Y5IFRz4k18zWvxsntiU4sqs&callback=initMap"
+            async defer></script>
+    <script src="/javascripts/location.js"></script>
+    <style>
+        .modal-body {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+    </style>
 </head>
 <body onload="initPage()">
-<% include ../public/partials/navbar.ejs %>
-<div id="user-setting-dialog" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" style="display: none">
+<%- include ('./navbar.ejs') %>
+<div class="modal" id="user-setting-dialog" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" style="display: none">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -45,34 +55,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit User Profile</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="location">Location</label>
-                        <input type="text" class="form-control" id="location" value="Location">
-                    </div>
-                    <div class="form-group">
-                        <label for="new-username">Username</label>
-                        <input type="text" class="form-control" id="new-username" value="Username">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="save-changes-btn">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="container my-5">
     <div class="row mb-3">
         <div class="col">
@@ -88,7 +71,7 @@
                 <a href="/sightDetails/<%= record._id %>" class="card-link home-page home-page-sight-card"
                    id="<%= record._id %>">
                     <div class="card mb-3">
-                        <img src="<%= record.image %>" class="card-img-top" alt="">
+                        <img src="uploads/<%= record.image %>" class="card-img-top" alt="">
                         <div class="card-body">
                             <h5 class="card-title"><%= record.identification %></h5>
                             <p class="card-id" style="display: none"><%= record._id %> </p>
@@ -109,17 +92,24 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         onclick="closeModal()"></button>
             </div>
-            <form>
+            <form enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="col-form-label">Date:</label>
                         <input type="date" name="date" class="form-control" id="date">
                     </div>
+<!--                    <div class="mb-3">-->
+<!--                        <label class="col-form-label">Location:</label>-->
+<!--                        <input type="text" name="location" class="form-control" id="location">-->
+<!--                    </div>-->
+                    <!--In create details-->
                     <div class="mb-3">
                         <label class="col-form-label">Location:</label>
-                        <input type="text" name="location" class="form-control" id="location">
-                    </div>
-                    <div class="mb-3">
+                        <div id="map-container">
+                            <label class="visually-hidden" for="map"></label>
+                            <div id="map" style="height: 300px; width: 300px;"></div>
+                        </div>
+                    </div>                    <div class="mb-3">
                         <label class="col-form-label">Description:</label>
                         <input name="description" name="description" class="form-control" id="description">
                     </div>
@@ -143,7 +133,4 @@
     </div>
 </div>
 </body>
-<script>
-
-</script>
 </html>
