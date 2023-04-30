@@ -2,15 +2,19 @@
 <html>
 <head>
     <title>Details</title>
-<!--    <link rel='stylesheet' href='/stylesheets/style.css'/>-->
+    <!--    <link rel='stylesheet' href='/stylesheets/style.css'/>-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <script type="text/javascript" src="/javascripts/indexedDB.js"></script>
     <script type="text/javascript" src="/javascripts/apiRequest.js" defer></script>
-    <script type="text/javascript" src="/javascripts/details.js" defer></script>
+    <script type="text/javascript" src="/javascripts/view/components.js" defer></script>
+    <script type="text/javascript" src="/javascripts/view/details.js" defer></script>
+
 </head>
 <body onload="initPage()">
-<%- include ('./navbar.ejs') %>
+<%- include ('./component/navbar.ejs') %>
+<%- include ('./component/user-setting.ejs') %>
+
 
 <div class="card mb-3 h-auto" style="max-width: 100%;">
     <div class="row no-gutters">

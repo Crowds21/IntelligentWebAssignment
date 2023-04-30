@@ -1,15 +1,10 @@
 async function initPage() {
     let lat = document.getElementById("iframe-record-map").getAttribute("data-record-lat")
     let lng = document.getElementById("iframe-record-map").getAttribute("data-record-lng")
-    let user = await isUserExist()
+    let user = await isDataExist(user_store)
     let username = user.username
     setUsername(username)
-    const mapSrc = createMapIframeSrc(lat, lng)
-    document.getElementById("iframe-record-map").src = mapSrc
-}
-
-function setUsername(username) {
-    document.getElementById("navbar-username").innerHTML = username
+    document.getElementById("iframe-record-map").src = createMapIframeSrc(lat, lng)
 }
 
 function initMap() {

@@ -11,8 +11,6 @@ const SightSchema = mongoose.Schema({
         lng: String,
         required: false
     },
-    // lat: {type: Float32Array, required: false},
-    // lng: {type:}
     image: {type: String, required: false}
 });
 SightSchema.set('toObject', {getters: true});

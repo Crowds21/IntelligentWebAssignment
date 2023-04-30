@@ -33,19 +33,14 @@ async function getSightById(id) {
     return data
 }
 
-async function getSightsByLocation(model, currentLocation) {
-    const allSights = await model.find();
+async function getSightsByLocation( currentLocation) {
+    const allSights = await getSightList()
     const sightsWithDistance = allSights.map(sight => {
         const distance = calculateDistance(currentLocation, sight.loc);
         return {sight, distance};
     });
-
-    // Sort the sights by distance in ascending order
     sightsWithDistance.sort((a, b) => a.distance - b.distance);
-
-    // Extract the sorted Sight records without the distance field
     const sortedSights = sightsWithDistance.map(sightWithDistance => sightWithDistance.sight);
-
     return sortedSights;
 }
 
@@ -56,18 +51,18 @@ async function getSightsByDate(model) {
 
 
 function calculateDistance(currentLocation, sightLocation) {
-    lat1 = currentLocation.lat
-    lon1 = currentLocation.lon
-    lat2 = sightLocation.lat
-    lon2 = sightLocation.lon
+    let lat1 = currentLocation.lat
+    let lon1 = currentLocation.lng
+    let lat2 = sightLocation.lat
+    let lon2 = sightLocation.lng
     if (lat1 === lat2 && lon1 === lon2) {
         return 0;
     } else {
-        var radlat1 = Math.PI * lat1 / 180;
-        var radlat2 = Math.PI * lat2 / 180;
-        var theta = lon1 - lon2;
-        var radtheta = Math.PI * theta / 180;
-        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        let radlat1 = Math.PI * lat1 / 180;
+        let radlat2 = Math.PI * lat2 / 180;
+        let theta = lon1 - lon2;
+        let radtheta = Math.PI * theta / 180;
+        let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
         if (dist > 1) {
             dist = 1;
         }
@@ -148,7 +143,76 @@ function parseImage() {
 
 }
 
+async function getBirdInfoFromGraph(birdName) {
+    const query = `
+    PREFIX dbo: <http://dbpedia.org/ontology/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+    SELECT ?bird ?label ?abstract ?thumbnail
+    WHERE {
+      ?bird dbo:class dbo:Bird ;
+            rdfs:label ?label ;
+            dbo:abstract ?abstract ;
+            foaf:depiction ?thumbnail .
+     FILTER (LANG(?label) = "en" && LANG(?abstract) = "en" && REGEX(?label, "^${birdName}$", "i")) 
+    }`;
 
+    const encodedQuery = encodeURIComponent(query);
+    const endpoint = `https://dbpedia.org/sparql?query=${encodedQuery}&format=json`;
+    try {
+        const response = await fetch(endpoint);
+        const result = await response.json();
+        if (result.results.bindings.length > 0) {
+            const birdInfo = {
+                name: result.results.bindings[0].label.value,
+                abstract: result.results.bindings[0].abstract.value,
+                thumbnail: result.results.bindings[0].thumbnail.value,
+            };
+            return birdInfo;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error(`Error fetching data from DBpedia: ${error}`);
+        return null;
+    }
+}
+
+async function testDBPedia() {
+    const query = `
+    PREFIX dbo: <http://dbpedia.org/ontology/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT ?bird ?label
+    WHERE {
+      ?bird dbo:class dbo:Bird ;
+            rdfs:label ?label .
+      FILTER (LANG(?label) = "en")
+    }
+    LIMIT 10
+  `;
+    const encodedQuery = encodeURIComponent(query);
+    const endpoint = `https://dbpedia.org/sparql?query=${encodedQuery}&format=json`;
+    try {
+        const response = await fetch(endpoint);
+        const result = await response.json();
+
+        if (result.results.bindings.length > 0) {
+            const birds = result.results.bindings.map(bird => {
+                return {
+                    uri: bird.bird.value,
+                    name: bird.label.value
+                };
+            });
+
+            return birds;
+        } else {
+            return [];
+        }
+    } catch (error) {
+        console.error(`Error fetching data from DBpedia: ${error}`);
+        return [];
+    }
+}
 
 module.exports = {
     getSightList,
@@ -158,4 +222,6 @@ module.exports = {
     initSightCollection,
     getSightById,
     getSightListByDateDesc,
+    getBirdInfoFromGraph,
+    testDBPedia
 }

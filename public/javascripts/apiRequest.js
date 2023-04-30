@@ -14,8 +14,9 @@ async function addSight() {
     const description = document.getElementById('description').value;
     const identification = document.getElementById('identification').value;
     const image = document.getElementById('image').files[0];
-    const loc = {"lat":sessionStorage.getItem("lat"), "lng":sessionStorage.getItem("lng")}
-    const userExist = await isUserExist();
+    const loc = {"lat": sessionStorage.getItem("lat"), "lng": sessionStorage.getItem("lng")}
+    const userExist = await isDataExist(user_store)
+    // const userExist = await isUserExist();
     const username = userExist.username;
 
     const sightData = new FormData();
@@ -26,20 +27,20 @@ async function addSight() {
     sightData.append('user_name', username);
     sightData.append('loc', JSON.stringify(loc));
 
-    await fetch('/saveSighting', {
+    fetch('/saveSighting', {
         method: 'POST',
         body: sightData
-    })
-        .then(data => {
-            console.log(data);
-            alert("Add Success!")
-            closeModal();
-            window.location.reload();
-        })
-        .catch(error => {
-            console.error(error);
-            alert(" Add Failure!");
-        });
+    }).then(data => {
+        //TODO Maybe we can update the page by JS
+        // Which means we need to have `store<Date/Distance>` functions locally
+        console.log(data);
+        alert("Add Success!")
+        closeModal();
+        window.location.reload();
+    }).catch(error => {
+        insetToSight(JSON.stringify(sightData))
+        // TODO Update UI
+    });
 }
 
 async function sortByDate() {
@@ -47,6 +48,20 @@ async function sortByDate() {
     const stringPromise = response.text();
     document.write(await stringPromise);
 
+}
+
+/**
+ * TODO The process is too slow
+ * @returns {Promise<void>}
+ */
+async function sortByDistance() {
+    let location = await isDataExist(location_store)
+    let latitude = location.lat
+    let longitude = location.lng
+    let url = `/sortByDistance?lat=${latitude}&lng=${longitude}`
+    const response = await fetch(url, {method: 'GET'})
+    const stringPromise = await response.text();
+    document.write(stringPromise);
 }
 
 async function getDetails(event) {

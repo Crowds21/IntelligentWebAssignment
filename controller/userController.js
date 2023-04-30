@@ -20,8 +20,6 @@ async function createUserInMongo(req, res) {
 
 async function createUserInLocal(username) {
     let data = {username: username}
-    // const user_store = basicController.user_store
-    // await basicController.addStore(user_store, data)
 }
 
 async function updateUserInMongo(req, res) {

@@ -21,10 +21,10 @@
     <script type="text/javascript" src="/javascripts/apiRequest.js" defer></script>
     <script src="/javascripts/workerRegister.js"></script>
     <!--Load indexedDB first-->
-    <script type="text/javascript" src="/javascripts/index.js" defer></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAM-bshugA-Y5IFRz4k18zWvxsntiU4sqs&callback=initMap"
-            async defer></script>
+    <script type="text/javascript" src="/javascripts/view/components.js" defer></script>
+    <script type="text/javascript" src="/javascripts/view/index.js" defer></script>
+<!--    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAM-bshugA-Y5IFRz4k18zWvxsntiU4sqs&callback=initMap" async defer></script>
     <script src="/javascripts/location.js"></script>
     <style>
         .modal-body {
@@ -34,26 +34,8 @@
     </style>
 </head>
 <body onload="initPage()">
-<%- include ('./navbar.ejs') %>
-<div class="modal" id="user-setting-dialog" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" style="display: none">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="username-modal-title">Set Username</h5>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="username-input">Username:</label>
-                    <input type="text" class="form-control" id="user-setting-input">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="user-setting-cancel" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="user-setting-submit">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
+<%- include ('./component/navbar.ejs') %>
+<%- include ('./component/user-setting.ejs') %>
 
 <div class="container my-5">
     <div class="row mb-3">
@@ -108,7 +90,8 @@
                             <label class="visually-hidden" for="map"></label>
                             <div id="map" style="height: 300px; width: 300px;"></div>
                         </div>
-                    </div>                    <div class="mb-3">
+                    </div>
+                    <div class="mb-3">
                         <label class="col-form-label">Description:</label>
                         <input name="description" name="description" class="form-control" id="description">
                     </div>

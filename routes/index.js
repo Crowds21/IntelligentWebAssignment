@@ -30,9 +30,15 @@ router.get('/', async function (req, res, next) {
     console.log("UrlPath: /")
     // await sightController.initSightCollection()
     let data = await sightController.getSightList()
-    res.render('index', {records: data, title:"sight"});
+    res.render('index', {records: data, title: "sight"});
 });
 router.get('/maps', function (req, res, next) {
+    let result = sightController.testDBPedia()
+    // getBirdInfoFromGraph("chicken").then(result =>{
+    //     console.log(("BirdInfo"))
+    //     console.log(result)
+    //
+    // })
     res.render('maps')
 })
 router.get('/sortByDate', async function (req, res, next) {
@@ -40,6 +46,15 @@ router.get('/sortByDate', async function (req, res, next) {
     console.log(data)
     res.render('index', {records: data});
 });
+
+router.get('/sortByDistance', async function (req, res, next) {
+    const location = {
+        lat: parseFloat(req.query.lat),
+        lng: parseFloat(req.query.lng),
+    }
+    let data = await sightController.getSightsByLocation(location)
+    res.render('index', {records: data})
+})
 router.get('/sightDetails/:id', async function (req, res, next) {
     let id = req.params.id;
     console.log("/sightDetails/" + id)
@@ -62,12 +77,9 @@ router.post('/setUser', function (req, res) {
     })
 });
 
-router.post('/saveSighting',upload.single('image'),async function (req, res) {
-    sightController.insertSight(req).then(r => {
-        res.send({
-            message: "success",
-        });
-    })
+router.post('/saveSighting', upload.single('image'), async function (req, res) {
+    await sightController.insertSight(req)
+    return res.status(200).json({message: 'Success'});
 });
 
 //Mock
