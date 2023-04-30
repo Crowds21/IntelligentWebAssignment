@@ -30,7 +30,7 @@ router.get('/', async function (req, res, next) {
     console.log("UrlPath: /")
     // await sightController.initSightCollection()
     let data = await sightController.getSightList()
-    res.render('index', {records: data});
+    res.render('index', {records: data, title:"sight"});
 });
 router.get('/maps', function (req, res, next) {
     res.render('maps')
