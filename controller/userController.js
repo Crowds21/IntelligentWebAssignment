@@ -1,5 +1,4 @@
 let UserModel = require('../model/userModel')
-const basicController = require('./basicController');
 
 async function createUserInMongo(req, res) {
     let userData = req.body
@@ -19,19 +18,25 @@ async function createUserInMongo(req, res) {
     await basicController.saveModel(user, req, res)
 }
 
+async function createUserInLocal(username) {
+    let data = {username: username}
+    // const user_store = basicController.user_store
+    // await basicController.addStore(user_store, data)
+}
 
 async function updateUserInMongo(req, res) {
     let userData = req.body
-    await basicController.updateModel(UserModel, req, res,
-        {user_id: userData.user_id},
-        {$set: {user_name: userData.user_name}}
-    )
+    // await basicController.updateModel(UserModel, req, res,
+    //     {user_id: userData.user_id},
+    //     {$set: {user_name: userData.user_name}}
+    // )
 }
 
 
+
 function generateUserId() {
-    const  randomStr = generateRandomString()
-    const  userId = 'usr' + randomStr
+    const randomStr = generateRandomString()
+    const userId = 'usr' + randomStr
     return userId
 }
 
@@ -41,7 +46,7 @@ function generateDeviceId() {
     return deviceId
 }
 
-function generateRandomString(){
+function generateRandomString() {
     const now = new Date();
     const dateStr = now.getFullYear().toString().padStart(4, '0')
         + (now.getMonth() + 1).toString().padStart(2, '0')
