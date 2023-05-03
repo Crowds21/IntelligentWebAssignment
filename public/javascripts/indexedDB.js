@@ -42,11 +42,33 @@ function getStore(storeName, mode) {
 
 async function insertToStore(storeName, jsonObject) {
     const db = indexDB.result
-    const transaction = db.transaction([storeName], mode)
+    const transaction = db.transaction([storeName], "readwrite")
     let dbStore = transaction.objectStore(storeName)
     const addRequest = dbStore.add(jsonObject)
     addRequest.onsuccess = (event) => {
-        console.log(event)
+
+        const record = jsonObject;
+        const blob = convertBase64ToBlob(jsonObject.image, 'image/png');
+        const imgUrl = URL.createObjectURL(blob);
+
+        const newRow = document.getElementById('cardRow');
+        const newCard = document.createElement('div');
+        newCard.classList.add('col-md-4', 'home-page-sight-card');
+        newCard.setAttribute('id', record._id);
+        newCard.innerHTML = `
+        <a href="/sightDetails/${record._id}" class="card-link home-page home-page-sight-card" id="${record._id}">
+            <div class="card mb-3">
+                <img src="${imgUrl}" class="card-img-top" alt="">
+                <div class="card-body">
+                    <h5 class="card-title">${record.identification}</h5>
+                    <p class="card-id" style="display: none">${record._id}</p>
+                    <p class="card-username">${record.user_name}</p>
+                    <p class="card-date">${record.date}</p>
+                </div>
+            </div>
+        </a>
+    `;
+        newRow.appendChild(newCard);
     }
     addRequest.onerror = (err) => {
         console.log(err)
@@ -100,3 +122,16 @@ async function updateSingleton(newData ,storeName,updateData){
     }
     transaction.commit()
 }
+
+function convertBase64ToBlob(base64String) {
+    const parts = base64String.split(',');
+    const mimeType = parts[0].split(':')[1];
+    const b64 = atob(parts[1]);
+    let n = b64.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = b64.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mimeType });
+}
+

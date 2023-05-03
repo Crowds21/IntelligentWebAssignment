@@ -38,8 +38,25 @@ async function addSight() {
         closeModal();
         window.location.reload();
     }).catch(error => {
-        insetToSight(JSON.stringify(sightData))
-        // TODO Update UI
+        // If saving to server fails, save data to IndexedDB
+        const reader = new FileReader();
+        reader.readAsDataURL(image);
+        reader.onload = function(event){
+            const sightDataLocal = {
+                date,
+                description,
+                identification,
+                image:event.target.result,
+                user_name: username,
+                loc: loc,
+            };
+            insertToStore('bird', sightDataLocal);
+            console.error('Failed to save data to server:', error);
+            console.log('Data saved to IndexedDB:', sightDataLocal);
+            alert('Failed to save data to server. Data saved locally.');
+            closeModal();
+            // window.location.reload();
+        }
     });
 }
 
