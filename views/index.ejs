@@ -46,7 +46,7 @@
             <button type="button" class="btn btn-secondary" id="by-location-btn">By Location</button>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id = "cardRow">
         <% records.forEach(function(record) { %>
             <div class="col-md-4 home-page-sight-card" id="<%= record._id %>">
                 <a href="/sightDetails/<%= record._id %>" class="card-link home-page home-page-sight-card"
