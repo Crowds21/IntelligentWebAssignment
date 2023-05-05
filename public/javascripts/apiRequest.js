@@ -47,7 +47,6 @@ async function sortByDate() {
     const response = await fetch('/sortByDate', {method: 'GET'})
     const stringPromise = response.text();
     document.write(await stringPromise);
-
 }
 
 /**
@@ -68,6 +67,7 @@ async function getDetails(event) {
     let id = event.currentTarget.id
     const response = await fetch('/sightDetails/' + id, {method: 'GET'})
     const stringPromise = response.text();
+
     document.write(await stringPromise);
 }
 

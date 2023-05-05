@@ -1,15 +1,15 @@
-const user_store = "user"
-const location_store = "location"
-const sight_store = "bird"
-const index_name = "bird_sight"
-const index_version = 3
+var user_store = "user"
+var location_store = "location"
+var sight_store = "bird"
+var index_name = "bird_sight"
+var index_version = 3
 
-const handleSuccess = async (event) => {
+var handleSuccess = async (event) => {
     console.log("Open indexedDB successfully")
 }
 
 
-const handleUpgrade = (event) => {
+var handleUpgrade = (event) => {
     let db = event.target.result;
     function createStore(storeName){
         if (!db.objectStoreNames.contains(storeName)) {
@@ -23,7 +23,7 @@ const handleUpgrade = (event) => {
 }
 
 
-const indexDB = indexedDB.open(index_name, index_version)
+var indexDB = indexedDB.open(index_name, index_version)
 indexDB.addEventListener("upgradeneeded", event => {
     handleUpgrade(event)
 })
