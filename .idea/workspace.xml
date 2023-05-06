@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25b7091e-2054-4900-924f-a0e766d66729" name="Changes" comment="workspace" />
+    <list default="true" id="25b7091e-2054-4900-924f-a0e766d66729" name="Changes" comment="Fix indexedDB.js">
+      <change afterPath="$PROJECT_DIR$/public/javascripts/view/loading.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/loading.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/sightController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/sightController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/javascripts/indexedDB.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/indexedDB.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/javascripts/view/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/view/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,7 +47,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/crowds/IntelligentWebAssignment/public/images&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/crowds/IntelligentWebAssignment&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -99,6 +107,9 @@
       <workItem from="1682964567979" duration="11101000" />
       <workItem from="1683143103770" duration="936000" />
       <workItem from="1683281032094" duration="442000" />
+      <workItem from="1683284774115" duration="3486000" />
+      <workItem from="1683377742635" duration="1243000" />
+      <workItem from="1683389116498" duration="3861000" />
     </task>
     <task id="LOCAL-00001" summary="dependencies">
       <created>1680786409303</created>
@@ -289,7 +300,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683281447153</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Fix indexedDB.js">
+      <created>1683286108386</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1683286108386</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -364,15 +382,22 @@
     <MESSAGE value="code style change" />
     <MESSAGE value="Location-based sorting &amp; Refactor code" />
     <MESSAGE value="workspace" />
-    <option name="LAST_COMMIT_MESSAGE" value="workspace" />
+    <MESSAGE value="Fix indexedDB.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix indexedDB.js" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/public/javascripts/indexedDB.js</url>
-          <line>45</line>
-          <option name="timeStamp" value="38" />
+          <url>file://$PROJECT_DIR$/routes/index.js</url>
+          <line>64</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/routes/index.js</url>
+          <line>33</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="46" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

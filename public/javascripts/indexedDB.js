@@ -1,15 +1,15 @@
-var user_store = "user"
-var location_store = "location"
-var sight_store = "bird"
-var index_name = "bird_sight"
-var index_version = 3
+const user_store = "user"
+const location_store = "location"
+const sight_store = "bird"
+const index_name = "bird_sight"
+const index_version = 3
 
-var handleSuccess = async (event) => {
+const handleSuccess = async (event) => {
     console.log("Open indexedDB successfully")
 }
 
 
-var handleUpgrade = (event) => {
+const handleUpgrade = (event) => {
     let db = event.target.result;
     function createStore(storeName){
         if (!db.objectStoreNames.contains(storeName)) {
@@ -23,7 +23,7 @@ var handleUpgrade = (event) => {
 }
 
 
-var indexDB = indexedDB.open(index_name, index_version)
+const indexDB = indexedDB.open(index_name, index_version)
 indexDB.addEventListener("upgradeneeded", event => {
     handleUpgrade(event)
 })
@@ -104,6 +104,7 @@ async function isDataExist(storeName){
  * @returns {Promise<void>}
  */
 async function updateSingleton(newData ,storeName,updateData){
+
     const data = await isDataExist(storeName)
     const db = indexDB.result
     const transaction = db.transaction(storeName, "readwrite")

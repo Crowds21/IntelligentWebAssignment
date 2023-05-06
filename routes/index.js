@@ -27,11 +27,29 @@ var upload = multer({storage: storage});
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
-    console.log("UrlPath: /")
-    // await sightController.initSightCollection()
-    let data = await sightController.getSightList()
+    res.render('loading')
+});
+
+router.get('/index', async function (req, res, next) {
+    let location = {
+        lat: req.query.lat,
+        lng: req.query.lng,
+    }
+    let byDateData = await sightController.getSightListByDateDesc()
+    let byLocationData = await sightController.getSightsByLocation(location)
+    res.render('index', {
+        byDate: byDateData,
+        byLocation: byLocationData,
+        title: "sight"
+    })
+})
+
+router.get('/records', async function (req, res, next) {
+    // TODO Get a location from user
+
     res.render('index', {records: data, title: "sight"});
 });
+
 router.get('/maps', function (req, res, next) {
     let result = sightController.testDBPedia()
     // getBirdInfoFromGraph("chicken").then(result =>{
