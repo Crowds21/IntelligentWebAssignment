@@ -17,6 +17,8 @@
             <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
                 <script type="module" src="/javascripts/indexedDB.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+
     <script type="text/javascript" src="/javascripts/indexedDB.js"></script>
     <script type="text/javascript" src="/javascripts/apiRequest.js" defer></script>
     <script src="/javascripts/workerRegister.js"></script>
@@ -26,6 +28,7 @@
 <!--    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAM-bshugA-Y5IFRz4k18zWvxsntiU4sqs&callback=initMap" async defer></script>
     <script src="/javascripts/location.js"></script>
+
     <style>
         .modal-body {
             max-height: 500px;
@@ -41,28 +44,57 @@
     <div class="row mb-3">
         <div class="col">
             <button type="button" class="btn btn-primary mr-2" id="create-btn" onclick="showCreate()">Create</button>
-            <button type="button" class="btn btn-secondary mr-2" id="by-time-btn" onclick="sortByDate()">By Date
-            </button>
-            <button type="button" class="btn btn-secondary" id="by-location-btn">By Location</button>
+            <ul class="nav nav-tabs" id="myTab" >
+                <li class="nav-item">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" >By Date</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" >By Location</button>
+                </li>
+            </ul>
         </div>
     </div>
-    <div class="row" id = "cardRow">
-        <% records.forEach(function(record) { %>
-            <div class="col-md-4 home-page-sight-card" id="<%= record._id %>">
-                <a href="/sightDetails/<%= record._id %>" class="card-link home-page home-page-sight-card"
-                   id="<%= record._id %>">
-                    <div class="card mb-3">
-                        <img src="uploads/<%= record.image %>" class="card-img-top" alt="">
-                        <div class="card-body">
-                            <h5 class="card-title"><%= record.identification %></h5>
-                            <p class="card-id" style="display: none"><%= record._id %> </p>
-                            <p class="card-username"><%= record.user_name %> </p>
-                            <p class="card-date"> <%= record.date %></p>
-                        </div>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="row" id = "cardRow">
+                <% records.forEach(function(record) { %>
+                    <div class="col-md-4 home-page-sight-card" id="<%= record._id %>">
+                        <a href="/sightDetails/<%= record._id %>" class="card-link home-page home-page-sight-card"
+                           id="<%= record._id %>">
+                            <div class="card mb-3">
+                                <img src="uploads/<%= record.image %>" class="card-img-top" alt="">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= record.identification %></h5>
+                                    <p class="card-id" style="display: none"><%= record._id %> </p>
+                                    <p class="card-username"><%= record.user_name %> </p>
+                                    <p class="card-date"> <%= record.date %></p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </a>
+                <% }); %>
             </div>
-        <% }); %>
+        </div>
+        <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <div class="row" id = "cardRow">
+                <% records.forEach(function(record) { %>
+                    <div class="col-md-4 home-page-sight-card" id="<%= record._id %>">
+                        <a href="/sightDetails/<%= record._id %>" class="card-link home-page home-page-sight-card"
+                           id="<%= record._id %>">
+                            <div class="card mb-3">
+                                <img src="uploads/<%= record.image %>" class="card-img-top" alt="">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= record.identification %></h5>
+                                    <p class="card-id" style="display: none"><%= record._id %> </p>
+                                    <p class="card-username"><%= record.user_name %> </p>
+                                    <p class="card-date"> <%= record.date %></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
     </div>
 </div>
 <div id="addSight" class="modal" tabindex="-1">
