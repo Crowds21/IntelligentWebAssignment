@@ -24,6 +24,7 @@ const handleUpgrade = (event) => {
 
 
 const indexDB = indexedDB.open(index_name, index_version)
+
 indexDB.addEventListener("upgradeneeded", event => {
     handleUpgrade(event)
 })
@@ -34,14 +35,14 @@ indexDB.addEventListener("error", (err) => {
 
 })
 
-function getStore(storeName, mode) {
-    let db = indexDB.result
+async function getStore(storeName, mode) {
+    let db = await indexDB.result
     const transaction = db.transaction([storeName], mode)
     return transaction.objectStore(storeName)
 }
 
 async function insertToStore(storeName, jsonObject) {
-    const db = indexDB.result
+    const db = await indexDB.result
     const transaction = db.transaction([storeName], "readwrite")
     let dbStore = transaction.objectStore(storeName)
     const addRequest = dbStore.add(jsonObject)
