@@ -79,7 +79,7 @@ function calculateDistance(currentLocation, sightLocation) {
 }
 
 /**
- * Initialize the database and insert data into it,
+ * Initialize the common and insert data into it,
  * so that testing can be carried out during the development process.
  * @returns {Promise<void>}
  */

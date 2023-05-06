@@ -6,7 +6,7 @@ async function createUserInMongo(req, res) {
     userData = {
         user_name: 'crowds'
     }
-    // Operating the database (MongoDB / IndexedDB)
+    // Operating the common (MongoDB / IndexedDB)
     let userId = generateUserId();
     let deviceId = generateDeviceId();
     let user = new UserModel({

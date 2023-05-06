@@ -2,7 +2,7 @@ const user_store = "user"
 const location_store = "location"
 const sight_store = "bird"
 const index_name = "bird_sight"
-const index_version = 3
+const index_version = 4
 
 const handleSuccess = async (event) => {
     console.log("Open indexedDB successfully")
@@ -41,7 +41,7 @@ function getStore(storeName, mode) {
 }
 
 async function insertToStore(storeName, jsonObject) {
-    const db = indexDB.result
+    const db = await indexDB.result
     const transaction = db.transaction([storeName], "readwrite")
     let dbStore = transaction.objectStore(storeName)
     const addRequest = dbStore.add(jsonObject)
@@ -78,7 +78,7 @@ async function insertToStore(storeName, jsonObject) {
 }
 
 /**
- * This asynchronous function checks if data exists in the given store name of the indexedDB database.
+ * This asynchronous function checks if data exists in the given store name of the indexedDB common.
  * @param {string} storeName - The name of the store to check for data.
  * @returns {Promise<any>} - Return the first row in the db
  */

@@ -10,6 +10,7 @@
     <script type="text/javascript" src="/javascripts/view/components.js" defer></script>
     <script type="text/javascript" src="/javascripts/view/details.js" defer></script>
 
+
 </head>
 <body onload="initPage()">
 <%- include ('./component/navbar.ejs') %>
@@ -70,18 +71,22 @@
             </tbody>
         </table>
     </div>
-
-
-    <div class="right">
-        <hr>
-        <% for (let i = 0; i < messages.length; i++) { %>
-            <div class="message">
-                <div class="username"><%= messages[i].username %></div>
-                <div class="datetime"><%= messages[i].date %></div>
-                <div class="content"><%= messages[i].content %></div>
+    <% for (let i = 0; i < messages.length; i++) { %>
+        <div class="container even">
+            <div class="row table-secondary">
+                <div class="col-md-3">
+                    <h2 class="username-style"> <%= messages[i].username %> </h2>
+                    <div class="row">
+                        <div class="col-md-3 py-4">
+                            <span class="date-style"><%= messages[i].date %></span></div>
+                    </div>
+                </div>
+                <div class="col-md-8 py-4">
+                    <p class="description-style"><%= messages[i].content %></p>
+                </div>
             </div>
-        <% } %>
-    </div>
+        </div>
+    <% } %>
 </div>
 </body>
 </html>

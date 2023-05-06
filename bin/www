@@ -89,5 +89,11 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
-
-var database= require('../database/mongoConnector.js')
+// Socket
+const io = require('socket.io')(server, {
+  pingTimeout: 60000,
+});
+var socket_module = require('../common/socketInit');
+socket_module.init(io, app);
+// MongoDB
+var database= require('../common/mongoConnector.js')
