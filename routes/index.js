@@ -126,4 +126,7 @@ router.get('/sightDetails', function (req, res, next) {
     res.render('sightDetails', {record: data, messages: messages})
 })
 
+router.get('/testIndexed', function (req,res,next){
+    return res.render('testIndexed')
+})
 module.exports = router;
