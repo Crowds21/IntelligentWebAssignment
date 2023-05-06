@@ -2,6 +2,7 @@ const SightModel = require("../model/sightModel");
 const Multer = require('multer');
 const ObjectId = require('mongodb').ObjectId;
 const path = require('path');
+
 async function insertSight(req) {
     var sightData = req.body;
     let sight = new SightModel({
@@ -21,6 +22,8 @@ async function getSightList() {
     let data = SightModel.find({})
     return data
 }
+
+
 
 async function getSightListByDateDesc() {
     let data = SightModel.find().sort({date: -1})

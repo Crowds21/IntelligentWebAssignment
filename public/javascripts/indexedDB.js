@@ -104,6 +104,7 @@ async function isDataExist(storeName){
  * @returns {Promise<void>}
  */
 async function updateSingleton(newData ,storeName,updateData){
+
     const data = await isDataExist(storeName)
     const db = indexDB.result
     const transaction = db.transaction(storeName, "readwrite")

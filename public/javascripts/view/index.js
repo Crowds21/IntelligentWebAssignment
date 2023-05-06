@@ -1,6 +1,6 @@
 async function initPage() {
     let user = await isDataExist(user_store)
-    saveLocation()
+    // saveLocation()
     if (user) {
         let username = user.username
         setUsername(username)
@@ -10,22 +10,24 @@ async function initPage() {
     }
 }
 
-function saveLocation() {
-    navigator.geolocation.getCurrentPosition(async position => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        let location = {
-            lat: latitude,
-            lng: longitude
-        }
-        updateSingleton(location, location_store, function (data, newData) {
-            data.lat = newData.lat
-            data.lng = newData.lat
-        }).then(() => {
-            console.log("Save Success!")
-        })
-    });
-}
+// function saveLocation() {
+//     navigator.geolocation.getCurrentPosition(async position => {
+//         const latitude = position.coords.latitude;
+//         const longitude = position.coords.longitude;
+//         let location = {
+//             lat: latitude,
+//             lng: longitude
+//         }
+//         updateSingleton(location, location_store, function (data, newData) {
+//             data.lat = newData.lat
+//             data.lng = newData.lat
+//         }).then(() => {
+//             console.log("Save Success!")
+//         })
+//         sessionStorage.setItem("lat",latitude)
+//         sessionStorage.setItem("lng",longitude)
+//     });
+// }
 
 function showCreate() {
     var modal = document.getElementById("addSight");
