@@ -38,7 +38,3 @@ function closeModal() {
     var modal = document.getElementById("addSight");
     modal.style.display = "none";
 }
-
-document.getElementById("by-location-btn").addEventListener('click', function () {
-    sortByDistance()
-})

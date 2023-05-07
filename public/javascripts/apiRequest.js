@@ -1,14 +1,3 @@
-// Template code
-// async function getSightList() {
-//     try {
-//         const response = await fetch('/getSightList', { method: 'GET' });
-//         const data = await response.json();
-//         return data;
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
-
 async function addSight() {
     const date = document.getElementById('date').value;
     const description = document.getElementById('description').value;
@@ -48,7 +37,7 @@ async function addSight() {
                 user_name: username,
                 loc: loc,
             };
-            insertToStore('bird', sightDataLocal);
+            insertRecordToStore('bird', sightDataLocal);
             console.error('Failed to save data to server:', error);
             console.log('Data saved to IndexedDB:', sightDataLocal);
             alert('Failed to save data to server. Data saved locally.');
@@ -100,21 +89,25 @@ async function saveChatContent(user, sight_id, content) {
         body: JSON.stringify(data)
     }).then(() => {
         console.log("SaveNewChat")
+    }).catch(async () => {
+        writeOnHistory(data.user,data.content)
+        await insertChatToStore(chat_store, data)
+        console.log("ChatInfo InsertIntoIndexedDB")
+        registerTag("saveChat")
     })
 }
 
-
-// window.addEventListener('online', async () => {
-//     console.log('Network reconnected');
-//
-//     // 获取当前 Service Worker 注册
-//     const registration = await navigator.serviceWorker.getRegistration();
-//
-//     if (registration) {
-//         // 强制更新 Service Worker
-//         registration.update().then(() => {
-//             console.log('Service Worker updated');
-//         });
-//     }
-// });
-
+function registerTag(tagName){
+    new Promise(function (resolve, reject) {
+        Notification.requestPermission(function (result) {
+            resolve();
+        })
+    }).then(function () {
+        return navigator.serviceWorker.ready;
+    }).then(function (reg){
+        return reg.sync.register(tagName)
+        //here register your sync with a tagname and return it
+    }).then(function () {
+        console.info('Sync registered');
+    })
+}

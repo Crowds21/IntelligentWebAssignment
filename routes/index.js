@@ -123,4 +123,10 @@ router.get('/sightDetails', function (req, res, next) {
     res.render('sightDetails', {record: data, messages: messages})
 })
 
+router.post('/saveChatList', function (req, res, next) {
+    let data = req.body
+    chatController.insertChatList(data).then(r=>{console.log("InsertChatListSuccessfully")})
+})
+
+
 module.exports = router;
