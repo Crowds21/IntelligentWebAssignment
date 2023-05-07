@@ -88,6 +88,7 @@ async function saveChatContent(user, sight_id, content) {
         },
         body: JSON.stringify(data)
     }).then(() => {
+        writeOnHistory(data.user,data.content)
         console.log("SaveNewChat")
     }).catch(async () => {
         writeOnHistory(data.user,data.content)

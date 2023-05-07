@@ -4,20 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25b7091e-2054-4900-924f-a0e766d66729" name="Changes" comment="LoadingPage">
-      <change afterPath="$PROJECT_DIR$/common/socketInit.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/chatController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/javascripts/chat.js" afterDir="false" />
+    <list default="true" id="25b7091e-2054-4900-924f-a0e766d66729" name="Changes" comment="Offline chat function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/www" beforeDir="false" afterPath="$PROJECT_DIR$/bin/www" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/sightController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/sightController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/userController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/mongoConnector.js" beforeDir="false" afterPath="$PROJECT_DIR$/common/mongoConnector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/chatModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/model/chatModel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/indexedDB.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/indexedDB.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/location.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/location.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/bird-details.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/bird-details.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/sightDetails.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/sightDetails.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/javascripts/apiRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/apiRequest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/javascripts/chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/chat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/serviceworker.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/serviceworker.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,6 +107,7 @@
       <workItem from="1683284774115" duration="3486000" />
       <workItem from="1683377742635" duration="1243000" />
       <workItem from="1683389116498" duration="8987000" />
+      <workItem from="1683479905099" duration="301000" />
     </task>
     <task id="LOCAL-00001" summary="dependencies">
       <created>1680786409303</created>
@@ -320,7 +312,21 @@
       <option name="project" value="LOCAL" />
       <updated>1683393239650</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Chat Function">
+      <created>1683471805643</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1683471805643</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Offline chat function">
+      <created>1683478886682</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1683478886682</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -397,7 +403,9 @@
     <MESSAGE value="workspace" />
     <MESSAGE value="Fix indexedDB.js" />
     <MESSAGE value="LoadingPage" />
-    <option name="LAST_COMMIT_MESSAGE" value="LoadingPage" />
+    <MESSAGE value="Chat Function" />
+    <MESSAGE value="Offline chat function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Offline chat function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -409,15 +417,14 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/routes/index.js</url>
-          <line>33</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="46" />
+          <line>127</line>
+          <option name="timeStamp" value="50" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="NodeJSConfigurationType">
-        <watch expression="data[&quot;0&quot;].$init" />
+        <watch expression="data[&quot;0&quot;].$init" language="JavaScript" />
       </configuration>
     </watches-manager>
   </component>

@@ -20,7 +20,7 @@ self.addEventListener("install", event => {
     console.log("ServiceWorker Install")
     caches.open(cache_name).then((cache) => {
         // 设置缓存列表
-        return cache.addAll(urlsToCache)
+        // return cache.addAll(urlsToCache)
     })
 })
 
@@ -125,10 +125,9 @@ async function deleteAllData(storeName) {
     const db = await indexDB.result
     const transaction = db.transaction([storeName], "readwrite")
     let dbStore = transaction.objectStore(storeName)
-    const addRequest = dbStore.add(jsonObject)
     const request = dbStore.clear();
-    request.onsuccess(e => {
+    request.onsuccess = (e) => {
         console.log("DeleteSuccessfully")
-    })
+    }
     transaction.commit()
 }
