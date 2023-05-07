@@ -5,6 +5,8 @@ async function initPage() {
     let username = user.username
     setUsername(username)
     document.getElementById("iframe-record-map").src = createMapIframeSrc(lat, lng)
+    await initChatRoom()
+    connectToRoom()
 }
 
 function initMap() {
@@ -35,3 +37,19 @@ function createMapIframeSrc(latitude, longitude) {
     const MAP_API_KEY = "AIzaSyAM-bshugA-Y5IFRz4k18zWvxsntiU4sqs"
     return `https://www.google.com/maps/embed/v1/place?key=${MAP_API_KEY}&q=${latitude},${longitude}`
 }
+
+document.getElementById("chat_input_btn").addEventListener('click',async function (event) {
+    let userExist = await isDataExist(user_store)
+    let user = userExist.username
+    const currentDate = new Date();
+    const dateString = currentDate.toLocaleDateString();
+    const path = window.location.pathname;
+    const sightId = path.substring(path.lastIndexOf("/") + 1);
+    let content = document.getElementById('chat_input').value;
+
+    // writeOnHistory(user, dateString, content)
+    sendChatText(content)
+    saveChatContent(user, sightId, content).then(r => {
+        console.log("SaveChatContent")
+    })
+})

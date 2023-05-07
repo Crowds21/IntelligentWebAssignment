@@ -31,8 +31,6 @@ async function addSight() {
         method: 'POST',
         body: sightData
     }).then(data => {
-        //TODO Maybe we can update the page by JS
-        // Which means we need to have `store<Date/Distance>` functions locally
         console.log(data);
         alert("Add Success!")
         closeModal();
@@ -41,12 +39,12 @@ async function addSight() {
         // If saving to server fails, save data to IndexedDB
         const reader = new FileReader();
         reader.readAsDataURL(image);
-        reader.onload = function(event){
+        reader.onload = function (event) {
             const sightDataLocal = {
                 date,
                 description,
                 identification,
-                image:event.target.result,
+                image: event.target.result,
                 user_name: username,
                 loc: loc,
             };
@@ -84,32 +82,39 @@ async function getDetails(event) {
     let id = event.currentTarget.id
     const response = await fetch('/sightDetails/' + id, {method: 'GET'})
     const stringPromise = response.text();
-
     document.write(await stringPromise);
 }
 
 
-// let elements = document.getElementsByClassName("home-page-sight-card")
-// for (let i = 0; i < elements.length; i++) {
-//     console.log(i)
-//     elements[i].addEventListener("click", function (event) {
-//         // 在这里添加事件处理逻辑
-//         getDetails(event).then(r => {
-//             console.log("Details Page")
-//         })
-//     });
-// }
-
-window.addEventListener('online', async () => {
-    console.log('Network reconnected');
-
-    // 获取当前 Service Worker 注册
-    const registration = await navigator.serviceWorker.getRegistration();
-
-    if (registration) {
-        // 强制更新 Service Worker
-        registration.update().then(() => {
-            console.log('Service Worker updated');
-        });
+async function saveChatContent(user, sight_id, content) {
+    let data = {
+        user: user,
+        sight_id: sight_id,
+        content: content
     }
-});
+    fetch('/saveChatContent', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(() => {
+        console.log("SaveNewChat")
+    })
+}
+
+
+// window.addEventListener('online', async () => {
+//     console.log('Network reconnected');
+//
+//     // 获取当前 Service Worker 注册
+//     const registration = await navigator.serviceWorker.getRegistration();
+//
+//     if (registration) {
+//         // 强制更新 Service Worker
+//         registration.update().then(() => {
+//             console.log('Service Worker updated');
+//         });
+//     }
+// });
+
