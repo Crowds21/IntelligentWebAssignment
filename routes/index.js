@@ -4,6 +4,9 @@ var userController = require('../controller/userController')
 var sightController = require('../controller/sightController')
 const {response} = require("express");
 const multer = require("multer");
+const fs = require('fs');
+const path = require('path');
+const SightModel = require("../model/sightModel");
 
 var storage = multer.diskStorage({
     // 指定上传文件的保存目录
@@ -125,5 +128,44 @@ router.get('/sightDetails', function (req, res, next) {
         }]
     res.render('sightDetails', {record: data, messages: messages})
 })
+
+router.post('/insertToMongo',async function (req,res,next){
+// 获取base64字符串
+    const base64String = req.body[0].image;
+
+    // 转换为Buffer对象
+    const buffer = base64ToBuffer(base64String);
+
+    // 获取文件名和扩展名
+    const fileName = Date.now() + '.jpg';
+    // 将Buffer对象保存为文件
+    console.log("start to generated th filename")
+    const filepath = path.join('public', 'uploads', fileName);
+    await fs.writeFile(filepath, buffer, (err) => {
+        if (err) {
+            // 处理错误
+            return next(err);
+        };
+        // Save to MongoDB
+        console.log("fileName="+fileName)
+
+        let sight = new SightModel({
+            identification: req.body[0].identification,
+            description: req.body[0].description,
+            date: req.body[0].date,
+            user_name: req.body[0].user_name,
+            location: req.body[0].location,
+            loc:req.body[0].loc,
+            image: fileName
+        })
+        sightController.insertSightFromIndexDB(sight)
+        return res.status(200).json({message: 'Success'});
+    });
+})
+
+function base64ToBuffer(base64) {
+    const base64Data = base64.replace(/^data:.+?;base64,/, '');
+    return Buffer.from(base64Data, 'base64');
+}
 
 module.exports = router;

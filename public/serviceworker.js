@@ -6,6 +6,17 @@ const urlsToCache = [
     '/stylesheets/style.css',
     '/sightDetails/'
 ];
+const index_version = 4
+
+
+// navigator.connection.onchange = (e) => {
+//     if (navigator.onLine) {
+//         console.log('online');
+//         syncData()
+//     } else {
+//         console.log('offline');
+//     }
+// }
 
 self.addEventListener("install", event => {
     console.log("ServiceWorker Install")
@@ -15,7 +26,7 @@ self.addEventListener("install", event => {
     })
 })
 
-//  Network first
+// Network first
 self.addEventListener("activate", event => {
     // Remove old caches
     event.waitUntil(
@@ -39,7 +50,7 @@ self.addEventListener("fetch", function (event) {
         return;
     }
 
-    // Network first
+    //Network first
     event.respondWith(
         fetch(event.request)
             // Get the result from the server
@@ -62,11 +73,107 @@ self.addEventListener("fetch", function (event) {
     );
 });
 
-// self.addEventListener('sync', (event) => {
-//     console.log("ServiceWorker - sync")
-//     if (event.tag === 'SomeTage') {
+
+
+self.addEventListener('sync', event => {
+    console.log("SYNC!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    if (event.tag === 'sync-data') {
+        event.waitUntil(syncData());
+    }
+});
+
+async function syncData() {
+    try {
+        const data = await getDataFromIndexedDB();
+        await sendDataToServer(data);
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+function getDataFromIndexedDB() {
+    return new Promise((resolve, reject) => {
+        // 连接到 IndexDB 数据库
+        const request = self.indexedDB.open(index_name, index_version);
+        request.onerror = (event) => {
+            console.log('无法连接到 IndexDB 数据库：', event.target.error);
+            reject(event.target.error);
+        };
+
+        request.onsuccess = (event) => {
+            const db = event.target.result;
+
+            // 从数据库中检索 bird 数据
+            const transaction = db.transaction(["bird"], 'readonly');
+            const store = transaction.objectStore("bird");
+            const request = store.getAll();
+
+            request.onsuccess = (event) => {
+                const birds = event.target.result;
+                console.log('检索到鸟类数据：', birds);
+                resolve(birds);
+            };
+
+            request.onerror = (event) => {
+                console.log('无法检索鸟类数据：', event.target.error);
+                reject(event.target.error);
+            };
+        };
+    });
+}
+async function sendDataToServer(data) {
+    // 将数据发送到服务器进行同步
+    await fetch('/insertToMongo', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+}
+
+
+
+// // 转换base64字符串为Buffer对象
+// function base64ToBuffer(base64) {
+//     const base64Data = base64.replace(/^data:.+?;base64,/, '');
+//     return Buffer.from(base64Data, 'base64');
+// }
 //
-//     }
-//     console.log("Serviceworker Sync Listener");
-//     console.info('Event: Sync', event);
-// });
+// // 上传文件
+// function uploadFile(req, res, next) {
+//     // 获取base64字符串
+//     const base64String = req.body.base64;
+//
+//     // 转换为Buffer对象
+//     const buffer = base64ToBuffer(base64String);
+//
+//     // 获取文件名和扩展名
+//     const originalname = 'myfilename';
+//     const extname = '.jpg';
+//
+//     // 设置文件存储路径和文件名
+//     const storage = multer.diskStorage({
+//         destination: function (req, file, cb) {
+//             cb(null, 'public/uploads/');
+//         },
+//         filename: function (req, file, cb) {
+//             cb(null, originalname + '-' + Date.now() + extname);
+//         }
+//     });
+//
+//     // 创建Multer对象，上传文件
+//     const upload = multer({ storage: storage }).single('file');
+//     upload(req, res, function (err) {
+//         if (err) {
+//             // 处理错误
+//             return next(err);
+//         }
+//
+//         // 文件上传成功，将文件路径存入MongoDB
+//         const filePath = req.file.path;
+//         res.send('Upload success!');
+//     });
+// }
+
+

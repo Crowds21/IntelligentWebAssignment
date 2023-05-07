@@ -38,6 +38,9 @@ async function addSight() {
         closeModal();
         window.location.reload();
     }).catch(error => {
+        //Register sync
+        registerSyncBird();
+
         // If saving to server fails, save data to IndexedDB
         const reader = new FileReader();
         reader.readAsDataURL(image);
@@ -89,27 +92,19 @@ async function getDetails(event) {
 }
 
 
-// let elements = document.getElementsByClassName("home-page-sight-card")
-// for (let i = 0; i < elements.length; i++) {
-//     console.log(i)
-//     elements[i].addEventListener("click", function (event) {
-//         // 在这里添加事件处理逻辑
-//         getDetails(event).then(r => {
-//             console.log("Details Page")
-//         })
-//     });
-// }
-
-window.addEventListener('online', async () => {
-    console.log('Network reconnected');
-
-    // 获取当前 Service Worker 注册
-    const registration = await navigator.serviceWorker.getRegistration();
-
-    if (registration) {
-        // 强制更新 Service Worker
-        registration.update().then(() => {
-            console.log('Service Worker updated');
-        });
-    }
-});
+function registerSyncBird() {
+    new Promise(function (resolve, reject) {
+        Notification.requestPermission(function (result) {
+            resolve();
+        })
+    }).then(function () {
+        return navigator.serviceWorker.ready;
+    }).then(function (reg) {
+        //here register your sync with a tagname and return it
+        return reg.sync.register('sync-data');
+    }).then(function () {
+        console.info('Sync registered');
+    }).catch(function (err) {
+        console.error('Failed to register sync', err.message);
+    });
+}

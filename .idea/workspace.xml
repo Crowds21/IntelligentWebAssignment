@@ -4,20 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25b7091e-2054-4900-924f-a0e766d66729" name="Changes" comment="LoadingPage">
-      <change afterPath="$PROJECT_DIR$/common/socketInit.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/controller/chatController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/javascripts/chat.js" afterDir="false" />
+    <list default="true" id="25b7091e-2054-4900-924f-a0e766d66729" name="Changes" comment="node version setting">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/www" beforeDir="false" afterPath="$PROJECT_DIR$/bin/www" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/sightController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/sightController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/userController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/mongoConnector.js" beforeDir="false" afterPath="$PROJECT_DIR$/common/mongoConnector.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model/chatModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/model/chatModel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/indexedDB.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/indexedDB.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/javascripts/location.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/location.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/bird-details.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/bird-details.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/sightDetails.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/sightDetails.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/javascripts/view/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/view/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/javascripts/view/loading.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/view/loading.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/serviceworker.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/serviceworker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +27,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="indexedDB" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
@@ -71,15 +70,15 @@
       <recent name="$PROJECT_DIR$/public" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\86130\Desktop\PG\Intellgent Web\Lab\IntelligentWebAssignment\public\javascripts" />
       <recent name="$PROJECT_DIR$/public/javascripts/view" />
       <recent name="$PROJECT_DIR$/views/component" />
       <recent name="$PROJECT_DIR$/views" />
       <recent name="$PROJECT_DIR$/controller" />
-      <recent name="$PROJECT_DIR$/database" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="www" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="bin/www" working-dir="$PROJECT_DIR$">
+    <configuration name="www" type="NodeJSConfigurationType" path-to-node="$APPLICATION_CONFIG_DIR$/node/node-v16.16.0-win-x64/node" nameIsGenerated="true" path-to-js-file="bin/www" working-dir="$PROJECT_DIR$">
       <envs>
         <env name="DEBUG" value="intelligentweb:*" />
       </envs>
@@ -326,27 +325,18 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="RECENT_FILTERS">
-      <map>
-        <entry key="User">
-          <value>
-            <list>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="*" />
-                </option>
-              </RecentGroup>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="wzy" />
-                </option>
-              </RecentGroup>
-            </list>
-          </value>
-        </entry>
-      </map>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
     </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -369,6 +359,26 @@
                 </TextFilterSettings>
               </option>
             </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="wzy" />
+                </option>
+              </RecentGroup>
+            </list>
           </value>
         </entry>
       </map>
@@ -400,21 +410,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="LoadingPage" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/routes/index.js</url>
-          <line>64</line>
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/routes/index.js</url>
-          <line>33</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="NodeJSConfigurationType">
         <watch expression="data[&quot;0&quot;].$init" />

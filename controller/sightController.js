@@ -17,7 +17,10 @@ async function insertSight(req) {
     let result = await sight.save()
     console.log(result)
 }
-
+async function insertSightFromIndexDB(sight) {
+    let result = await sight.save()
+    console.log(result)
+}
 async function getSightList() {
     let data = SightModel.find({})
     return data
@@ -226,5 +229,6 @@ module.exports = {
     getSightById,
     getSightListByDateDesc,
     getBirdInfoFromGraph,
-    testDBPedia
+    testDBPedia,
+    insertSightFromIndexDB
 }
