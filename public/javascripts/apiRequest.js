@@ -88,10 +88,9 @@ async function saveChatContent(user, sight_id, content) {
         },
         body: JSON.stringify(data)
     }).then(() => {
-        writeOnHistory(data.user,data.content)
+        // writeOnHistory(data.user,data.content)
         console.log("SaveNewChat")
-    }).catch(async () => {
-        writeOnHistory(data.user,data.content)
+    }).catch(async (error) => {
         await insertChatToStore(chat_store, data)
         console.log("ChatInfo InsertIntoIndexedDB")
         registerTag("saveChat")
