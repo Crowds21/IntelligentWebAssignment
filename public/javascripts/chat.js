@@ -2,58 +2,39 @@ let name = null;
 let roomNo = null;
 let socket = io();
 
-
-// 需要在 package.json 中下载 "socket.io": "^4.4.1"
-// 需要在 bin/www 中设置 socket 服务器(加载 controller 中的 lab3_1)来实现
-
-
 /**
  * called by <body onload>
  * it initialises the interface and the expected socket messages
  * plus the associated actions
  */
-function init() {
-    // 显示登录界面隐藏聊天界面
-    document.getElementById('initial_form').style.display = 'block';
-    document.getElementById('chat_interface').style.display = 'none';
-
-    // 为 Socket 对象添加监听器 joined. 在有人加入聊天室时触发
+async function initChatRoom() {
+    const path = window.location.pathname;
+    roomNo = path.substring(path.lastIndexOf("/") + 1);
+    let user = await isDataExist(user_store);
+    name = user.username
+    // When someone joined
     socket.on('joined', function (room, userId) {
         if (userId === name) {
-            // 进入聊天室的是用户本人,则隐藏登录框
-            hideLoginInterface(room, userId);
+            // If it is user self
+
         } else {
             // notifies that someone has joined the room
-            writeOnHistory('<b>'+userId+'</b>' + ' joined room ' + room);
+
         }
     });
-    // 监听器,监听 chat 事件,在接收到消息时触发
-    socket.on('chat', function (room, userId, chatText) {
-        let who = userId
-        if (userId === name) who = 'Me';
-        writeOnHistory('<b>' + who + ':</b> ' + chatText);
+    // List who send the msg
+    socket.on('chat', function (room, userId, content) {
+            writeOnHistory(userId,content);
     });
 
-}
-
-/**
- * called to generate a random room number
- * This is a simplification. A real world implementation would ask the server to generate a unique room number
- * so to make sure that the room number is not accidentally repeated across uses
- */
-function generateRoom() {
-    roomNo = Math.round(Math.random() * 10000);
-    document.getElementById('roomNo').value = 'R' + roomNo;
 }
 
 /**
  * called when the Send button is pressed. It gets the text to send from the interface
  * and sends the message via  socket
  */
-function sendChatText() {
-    let chatText = document.getElementById('chat_input').value;
-    // 该函数用于发送(触发)事件. 而 on 用于接收(监听)事件
-    socket.emit('chat', roomNo, name, chatText);
+function sendChatText(content) {
+    socket.emit('chat', roomNo, name, content);
 }
 
 /**
@@ -61,33 +42,27 @@ function sendChatText() {
  * interface
  */
 function connectToRoom() {
-    roomNo = document.getElementById('roomNo').value;
-    name = document.getElementById('name').value;
     if (!name) name = 'Unknown-' + Math.random();
     socket.emit('create or join', roomNo, name);
 }
 
 /**
  * it appends the given html text to the history div
- * @param text: teh text to append
+ * @param user Username
+ * @param date Date of sending msg
+ * @param content Content of msg
  */
-function writeOnHistory(text) {
-    let history = document.getElementById('history');
-    let paragraph = document.createElement('p');
-    paragraph.innerHTML = text;
-    history.appendChild(paragraph);
+function writeOnHistory(user,content) {
+    let chatTemplate = `<div class="container even"><div class="row table-secondary"><div class="col-md-3"><h2 class="username-style">${user}</h2><div class="row">
+                    <div class="col-md-3 py-4"></div>
+                    </div></div>
+                <div class="col-md-8 py-4"><p class="description-style">${content}</p></div></div></div>`
+    let history = document.getElementById('chat_board_container');
+    const parser = new DOMParser();
+    let chatHtml = parser.parseFromString(chatTemplate, 'text/html');
+    const chatNode = chatHtml.body.firstChild;
+    history.appendChild(chatNode)
     document.getElementById('chat_input').value = '';
 }
 
-/**
- * it hides the initial form and shows the chat
- * @param room the selected room
- * @param userId the user name
- */
-function hideLoginInterface(room, userId) {
-    document.getElementById('initial_form').style.display = 'none';
-    document.getElementById('chat_interface').style.display = 'block';
-    document.getElementById('who_you_are').innerHTML= userId;
-    document.getElementById('in_room').innerHTML= ' '+room;
-}
 

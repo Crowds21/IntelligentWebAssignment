@@ -1,8 +1,9 @@
 const user_store = "user"
 const location_store = "location"
 const sight_store = "bird"
+const chat_store = "chat"
 const index_name = "bird_sight"
-const index_version = 4
+const index_version = 5
 
 const handleSuccess = async (event) => {
     console.log("Open indexedDB successfully")
@@ -11,14 +12,17 @@ const handleSuccess = async (event) => {
 
 const handleUpgrade = (event) => {
     let db = event.target.result;
-    function createStore(storeName){
+
+    function createStore(storeName) {
         if (!db.objectStoreNames.contains(storeName)) {
             db.createObjectStore(storeName, {keyPath: "id", autoIncrement: true})
         }
     }
+
     createStore(user_store)
     createStore(sight_store)
     createStore(location_store)
+    createStore(chat_store)
     console.log("Upgrade indexedDB successfully")
 }
 
@@ -41,7 +45,14 @@ async function getStore(storeName, mode) {
     return transaction.objectStore(storeName)
 }
 
-async function insertToStore(storeName, jsonObject) {
+async function insertChatToStore(storeName,jsonObject){
+    const db = await indexDB.result
+    const transaction = db.transaction([storeName], "readwrite")
+    let dbStore = transaction.objectStore(storeName)
+    const addRequest = dbStore.add(jsonObject)
+    transaction.commit()
+}
+async function insertRecordToStore(storeName, jsonObject) {
     const db = await indexDB.result
     const transaction = db.transaction([storeName], "readwrite")
     let dbStore = transaction.objectStore(storeName)
@@ -83,12 +94,12 @@ async function insertToStore(storeName, jsonObject) {
  * @param {string} storeName - The name of the store to check for data.
  * @returns {Promise<any>} - Return the first row in the db
  */
-async function isDataExist(storeName){
+async function isDataExist(storeName) {
     let dbStore = await getStore(storeName, "readonly")
     const getRequest = dbStore.get(1);
     return new Promise((resolve, reject) => {
         getRequest.onsuccess = (event) => {
-            const result= event.target.result;
+            const result = event.target.result;
             resolve(result);
         };
         getRequest.onerror = (event) => {
@@ -104,19 +115,18 @@ async function isDataExist(storeName){
  * @param updateData The function to update data.<attribute> = newData.<attribute>
  * @returns {Promise<void>}
  */
-async function updateSingleton(newData ,storeName,updateData){
-
+async function updateSingleton(newData, storeName, updateData) {
     const data = await isDataExist(storeName)
     const db = indexDB.result
     const transaction = db.transaction(storeName, "readwrite")
     const dbStore = transaction.objectStore(storeName)
-    if (data){
-        updateData(data,newData)
+    if (data) {
+        updateData(data, newData)
         const putRequest = await dbStore.put(data);
         putRequest.onsuccess = (event) => {
             console.log(event)
         }
-    }else {
+    } else {
         const addRequest = await dbStore.add(newData);
         addRequest.onsuccess = (event) => {
             console.log(event)
@@ -124,6 +134,7 @@ async function updateSingleton(newData ,storeName,updateData){
     }
     transaction.commit()
 }
+
 
 function convertBase64ToBlob(base64String) {
     const parts = base64String.split(',');
@@ -134,6 +145,6 @@ function convertBase64ToBlob(base64String) {
     while (n--) {
         u8arr[n] = b64.charCodeAt(n);
     }
-    return new Blob([u8arr], { type: mimeType });
+    return new Blob([u8arr], {type: mimeType});
 }
 

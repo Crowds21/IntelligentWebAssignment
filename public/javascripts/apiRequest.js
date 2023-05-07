@@ -1,14 +1,3 @@
-// Template code
-// async function getSightList() {
-//     try {
-//         const response = await fetch('/getSightList', { method: 'GET' });
-//         const data = await response.json();
-//         return data;
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
-
 async function addSight() {
     const date = document.getElementById('date').value;
     const description = document.getElementById('description').value;
@@ -31,8 +20,6 @@ async function addSight() {
         method: 'POST',
         body: sightData
     }).then(data => {
-        //TODO Maybe we can update the page by JS
-        // Which means we need to have `store<Date/Distance>` functions locally
         console.log(data);
         alert("Add Success!")
         closeModal();
@@ -44,16 +31,16 @@ async function addSight() {
         // If saving to server fails, save data to IndexedDB
         const reader = new FileReader();
         reader.readAsDataURL(image);
-        reader.onload = function(event){
+        reader.onload = function (event) {
             const sightDataLocal = {
                 date,
                 description,
                 identification,
-                image:event.target.result,
+                image: event.target.result,
                 user_name: username,
                 loc: loc,
             };
-            insertToStore('bird', sightDataLocal);
+            insertRecordToStore('bird', sightDataLocal);
             console.error('Failed to save data to server:', error);
             console.log('Data saved to IndexedDB:', sightDataLocal);
             alert('Failed to save data to server. Data saved locally.');
@@ -87,10 +74,46 @@ async function getDetails(event) {
     let id = event.currentTarget.id
     const response = await fetch('/sightDetails/' + id, {method: 'GET'})
     const stringPromise = response.text();
-
     document.write(await stringPromise);
 }
 
+
+async function saveChatContent(user, sight_id, content) {
+    let data = {
+        user: user,
+        sight_id: sight_id,
+        content: content
+    }
+    fetch('/saveChatContent', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(() => {
+        // writeOnHistory(data.user,data.content)
+        console.log("SaveNewChat")
+    }).catch(async (error) => {
+        await insertChatToStore(chat_store, data)
+        console.log("ChatInfo InsertIntoIndexedDB")
+        registerTag("saveChat")
+    })
+}
+
+function registerTag(tagName){
+    new Promise(function (resolve, reject) {
+        Notification.requestPermission(function (result) {
+            resolve();
+        })
+    }).then(function () {
+        return navigator.serviceWorker.ready;
+    }).then(function (reg){
+        return reg.sync.register(tagName)
+        //here register your sync with a tagname and return it
+    }).then(function () {
+        console.info('Sync registered');
+    })
+}
 
 function registerSyncBird() {
     new Promise(function (resolve, reject) {

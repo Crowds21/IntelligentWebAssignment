@@ -1,22 +1,20 @@
-// 在 Service Worker 中打开 IndexedDB 数据库
+const user_store = "user"
+const location_store = "location"
+const sight_store = "bird"
+const chat_store = "chat"
 const index_name = "bird_sight"
+const index_version = 5
+const indexDB = indexedDB.open(index_name, index_version)
+
+
+// 在 Service Worker 中打开 IndexedDB 数据库
+// const index_name = "bird_sight"
 const cache_name = "sight_cache_v1"
 const urlsToCache = [
     '/',
     '/stylesheets/style.css',
     '/sightDetails/'
 ];
-const index_version = 4
-
-
-// navigator.connection.onchange = (e) => {
-//     if (navigator.onLine) {
-//         console.log('online');
-//         syncData()
-//     } else {
-//         console.log('offline');
-//     }
-// }
 
 self.addEventListener("install", event => {
     console.log("ServiceWorker Install")
@@ -134,46 +132,71 @@ async function sendDataToServer(data) {
 
 
 
-// // 转换base64字符串为Buffer对象
-// function base64ToBuffer(base64) {
-//     const base64Data = base64.replace(/^data:.+?;base64,/, '');
-//     return Buffer.from(base64Data, 'base64');
-// }
-//
-// // 上传文件
-// function uploadFile(req, res, next) {
-//     // 获取base64字符串
-//     const base64String = req.body.base64;
-//
-//     // 转换为Buffer对象
-//     const buffer = base64ToBuffer(base64String);
-//
-//     // 获取文件名和扩展名
-//     const originalname = 'myfilename';
-//     const extname = '.jpg';
-//
-//     // 设置文件存储路径和文件名
-//     const storage = multer.diskStorage({
-//         destination: function (req, file, cb) {
-//             cb(null, 'public/uploads/');
-//         },
-//         filename: function (req, file, cb) {
-//             cb(null, originalname + '-' + Date.now() + extname);
-//         }
-//     });
-//
-//     // 创建Multer对象，上传文件
-//     const upload = multer({ storage: storage }).single('file');
-//     upload(req, res, function (err) {
-//         if (err) {
-//             // 处理错误
-//             return next(err);
-//         }
-//
-//         // 文件上传成功，将文件路径存入MongoDB
-//         const filePath = req.file.path;
-//         res.send('Upload success!');
-//     });
-// }
 
 
+self.addEventListener('sync', (event) => {
+    console.log("ServiceWorker - sync")
+    if (event.tag === 'saveChat') {
+        uploadChatData().then(r => {
+            console.log("SaveChat: UploadData Successfully")
+        })
+    }
+    console.log("Serviceworker Sync Listener");
+    console.info('Event: Sync', event);
+});
+
+async function uploadChatData() {
+    let dataList = await getAllData(chat_store);
+    let newData = []
+
+    for (let index in dataList) {
+        newData.push({
+            user: dataList[index].user,
+            sight_id: dataList[index].sight_id,
+            content: dataList[index].content
+        })
+    }
+
+    fetch('/saveChatList', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newData)
+    }).then(() => {
+        console.log("Upload Chat Successfully")
+    })
+
+    await deleteAllData(chat_store)
+}
+
+async function getStore(storeName, mode) {
+    let db = await indexDB.result
+    const transaction = db.transaction([storeName], mode)
+    return transaction.objectStore(storeName)
+}
+
+async function getAllData(storeName) {
+    let dbStore = await getStore(storeName, "readonly")
+    const getRequest = dbStore.getAll();
+    return new Promise((resolve, reject) => {
+        getRequest.onsuccess = (event) => {
+            const result = event.target.result;
+            resolve(result);
+        };
+        getRequest.onerror = (event) => {
+            reject(event.target.error);
+        };
+    });
+}
+
+async function deleteAllData(storeName) {
+    const db = await indexDB.result
+    const transaction = db.transaction([storeName], "readwrite")
+    let dbStore = transaction.objectStore(storeName)
+    const request = dbStore.clear();
+    request.onsuccess = (e) => {
+        console.log("DeleteSuccessfully")
+    }
+    transaction.commit()
+}
