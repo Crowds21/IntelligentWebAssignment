@@ -1,31 +1,24 @@
-let mongoose = require('mongoose')
-let mongo_url = 'mongodb://localhost:27017/bird_sight'
+// Require Mongoose and set the MongoDB connection URL
+const mongoose = require('mongoose');
+const mongo_url = 'mongodb://localhost:27017/bird_sight';
 
-mongoose.Promise = global.Promise
+// Set the Mongoose promise to the global promise
+mongoose.Promise = global.Promise;
 
-try {
-    mongoose.connect(mongo_url).then(r => {})
-    console.log("connection to mongodb!");
-} catch (err) {
-    console.error('MongoDB connection error:', err)
+// Connect to MongoDB using the Mongoose connection and log a message
+mongoose.connect(mongo_url)
+    .then(() => console.log("Connected to MongoDB!"))
+    .catch((err) => console.error('MongoDB connection error:', err));
+
+// Create a reference to the Mongoose connection
+const db = mongoose.connection;
+
+// Define an array of collection names to create
+const collectionNames = ["sights", "users", "chats"];
+
+// Use a for...of loop to create each collection and log a message
+for (const name of collectionNames) {
+    db.createCollection(name)
+        .then(() => console.log(`Created collection: ${name}`))
+        .catch(() => console.log(`Already created collection: ${name}`));
 }
-
-let db = mongoose.connection
-
-db.createCollection("sights").then(r => {
-    console.log("Create collection: sights")
-}).catch( err => {
-    console.log("Already Created: sights")
-})
-
-db.createCollection("users").then(r => {
-    console.log("Create collection: users")
-}).catch( err => {
-    console.log("Already Created: users")
-})
-
-db.createCollection("chats").then(r => {
-    console.log("Create collection: chats")
-}).catch( err => {
-    console.log("Already Created: chats")
-})
