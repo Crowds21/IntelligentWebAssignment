@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25b7091e-2054-4900-924f-a0e766d66729" name="Changes" comment="node version setting">
+    <list default="true" id="8610f1cf-096c-4dea-82c6-c82d477e99c5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/_2023_5_1__19_45___Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/在进行重置之前于_2023_5_1,_19_45_取消提交了更改_[Changes]/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/chatModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/model/chatModel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/location.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/location.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/view/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/view/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/javascripts/view/loading.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/javascripts/view/loading.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/serviceworker.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/serviceworker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +84,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="25b7091e-2054-4900-924f-a0e766d66729" name="Changes" comment="" />
+      <changelist id="8610f1cf-096c-4dea-82c6-c82d477e99c5" name="Changes" comment="" />
       <created>1679058127069</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -115,6 +111,7 @@
       <workItem from="1683284774115" duration="3486000" />
       <workItem from="1683377742635" duration="1243000" />
       <workItem from="1683389116498" duration="8987000" />
+      <workItem from="1683715191655" duration="1424000" />
     </task>
     <task id="LOCAL-00001" summary="dependencies">
       <created>1680786409303</created>
