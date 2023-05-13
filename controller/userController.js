@@ -1,5 +1,13 @@
 let UserModel = require('../model/userModel')
 
+/**
+ * Creates a new user in MongoDB.
+ * @async
+ * @function
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ * @returns {Promise<void>}
+ */
 async function createUserInMongo(req, res) {
     let userData = req.body
     // Mock Data
@@ -18,10 +26,27 @@ async function createUserInMongo(req, res) {
     await basicController.saveModel(user, req, res)
 }
 
+/**
+ * Creates a new user in local storage.
+ * @async
+ * @function
+ * @param {string} username - The username for the new user.
+ * @returns {Promise<void>}
+ */
 async function createUserInLocal(username) {
     let data = {username: username}
+    // TODO: Implement the logic for creating a new user in local storage.
+
 }
 
+/**
+ * Updates an existing user in MongoDB.
+ * @async
+ * @function
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ * @returns {Promise<void>}
+ */
 async function updateUserInMongo(req, res) {
     let userData = req.body
     // await basicController.updateModel(UserModel, req, res,
@@ -30,20 +55,33 @@ async function updateUserInMongo(req, res) {
     // )
 }
 
-
-
+/**
+ * Generates a new user ID.
+ * @function
+ * @returns {string} - A randomly generated user ID.
+ */
 function generateUserId() {
     const randomStr = generateRandomString()
     const userId = 'usr' + randomStr
     return userId
 }
 
+/**
+ * Generates a new device ID.
+ * @function
+ * @returns {string} - A randomly generated device ID.
+ */
 function generateDeviceId() {
     const randomStr = generateRandomString()
     const deviceId = 'dev' + randomStr
     return deviceId
 }
 
+/**
+ * Generates a random string of characters.
+ * @function
+ * @returns {string} - A randomly generated string.
+ */
 function generateRandomString() {
     const now = new Date();
     const dateStr = now.getFullYear().toString().padStart(4, '0')
