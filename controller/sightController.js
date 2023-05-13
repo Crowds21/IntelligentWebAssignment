@@ -3,6 +3,11 @@ const Multer = require('multer');
 const ObjectId = require('mongodb').ObjectId;
 const path = require('path');
 
+/**
+ * Inserts a new sight into the database.
+ * @param {Object} req - The request object containing the sight data.
+ * @returns {Promise<void>}
+ */
 async function insertSight(req) {
     var sightData = req.body;
     let sight = new SightModel({
@@ -17,28 +22,51 @@ async function insertSight(req) {
     let result = await sight.save()
     console.log(result)
 }
+
+/**
+ * Inserts a sight object into the database from IndexDB.
+ * @param {Object} sight - The sight object to be inserted.
+ * @returns {Promise<void>}
+ */
 async function insertSightFromIndexDB(sight) {
     let result = await sight.save()
     console.log(result)
 }
+
+/**
+ * Returns a list of all sights in the database.
+ * @returns {Promise<Object[]>}
+ */
 async function getSightList() {
     let data = SightModel.find({})
     return data
 }
 
-
-
+/**
+ * Returns a list of all sights in the database, sorted by date in descending order.
+ * @returns {Promise<Object[]>}
+ */
 async function getSightListByDateDesc() {
     let data = SightModel.find().sort({date: -1})
     return data;
 }
 
+/**
+ * Returns the sight with the specified ID.
+ * @param {string} id - The ID of the sight to retrieve.
+ * @returns {Promise<Object>}
+ */
 async function getSightById(id) {
     let data_id = new ObjectId(id)
     let data = SightModel.findById(data_id)
     return data
 }
 
+/**
+ * Returns a list of all sights in the database, sorted by distance from a given location.
+ * @param {Object} currentLocation - The location to sort by.
+ * @returns {Promise<Object[]>}
+ */
 async function getSightsByLocation( currentLocation) {
     const allSights = await getSightList()
     const sightsWithDistance = allSights.map(sight => {
@@ -50,12 +78,22 @@ async function getSightsByLocation( currentLocation) {
     return sortedSights;
 }
 
+/**
+ * Returns a list of all sights in the database, sorted by date in ascending order.
+ * @param {Object} model - The SightModel to use.
+ * @returns {Promise<Object[]>}
+ */
 async function getSightsByDate(model) {
     const sights = await model.find().sort({date: 1});
     return sights
 }
 
-
+/**
+ * Calculates the distance between two locations.
+ * @param {Object} currentLocation - The first location.
+ * @param {Object} sightLocation - The second location.
+ * @returns {number} The distance between the two locations in kilometers.
+ */
 function calculateDistance(currentLocation, sightLocation) {
     let lat1 = currentLocation.lat
     let lon1 = currentLocation.lng
@@ -149,6 +187,12 @@ function parseImage() {
 
 }
 
+/**
+ * Retrieves information about a bird from the DBpedia knowledge graph.
+ * @async
+ * @param {string} birdName - The name of the bird to search for.
+ * @returns {Promise<Object|null>} A promise that resolves to an object containing the bird's name, abstract, and thumbnail, or null if no results are found.
+ */
 async function getBirdInfoFromGraph(birdName) {
     const query = `
     PREFIX dbo: <http://dbpedia.org/ontology/>
@@ -184,6 +228,13 @@ async function getBirdInfoFromGraph(birdName) {
     }
 }
 
+/**
+ * Makes a request to the DBpedia SPARQL endpoint to retrieve information about bird species.
+ * @async
+ * @function
+ * @returns {Promise<Object[]>} - An array of objects with the URI and name of each bird species.
+ * @throws {Error} - If there is an error fetching data from DBpedia.
+ */
 async function testDBPedia() {
     const query = `
     PREFIX dbo: <http://dbpedia.org/ontology/>
@@ -209,7 +260,6 @@ async function testDBPedia() {
                     name: bird.label.value
                 };
             });
-
             return birds;
         } else {
             return [];
