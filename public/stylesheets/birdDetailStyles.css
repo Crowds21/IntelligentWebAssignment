@@ -3,41 +3,58 @@
     color: gray;
   } */
 .navbar {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin-bottom: 15px;
     overflow: hidden;
 }
+
 div.card {
     height: 250px;
     border-radius: 25px;
     border: 2px solid rgba(0, 0, 0, 0.2);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  }
-  div.card-body{
+}
+
+div.card-body {
     background-color: #c7e6c8;
-    border-radius: 25px;
-    border: 2px solid rgba(0, 0, 0, 0.2);
-  color: gray;
-  padding: 10px; 
-  font-size: 40px;
-  }
-  #card-image{
+    border-radius: 0 25px 25px 0;
+    color: gray;
+    padding: 10px;
+    font-size: 15px;
+    height: 100%;
+}
+.card-col1{
+    grid-column: 1;
+}
+.card-col2 {
+    grid-column: 2; /* 在第二列显示 */
+    grid-row: 1 / span 4; /* 跨越四行 */
+    width: 200px;
+    height: 200px;
+    border: 0;
+}
+
+#card-image {
     height: 250px;
     border-radius: 25px;
     border: 2px solid rgba(0, 0, 0, 0.2);
-  }
-  p.card-style {
+}
+
+p.card-style {
     color: gray;
     font-size: 25px;
-  }
-  .pull-right{
+}
+
+.pull-right {
     float: right;
     margin-right: 30px;
-  }
-  h2.style {
-    color:#36454F;
-  }
-  .pagination {
+}
+
+h2.style {
+    color: #36454F;
+}
+
+.pagination {
     --bs-pagination-font-size: 20px;
     --bs-pagination-color: #712cf9;
     --bs-pagination-bg: var(--bs-body-bg);
@@ -59,54 +76,71 @@ div.card {
     display: flex;
     padding-left: 0;
     list-style: none;
-  }
+}
 
-  th.title-style{
+th.title-style {
     font-size: 40px;
-    font-weight:bold;
-    color:#36454F;
-    padding-right:20px;
-  }
+    font-weight: bold;
+    color: #36454F;
+    padding-right: 20px;
+}
 
-  td.detail-style{
-    vertical-align:middle;
+td.detail-style {
+    vertical-align: middle;
     font-size: 30px;
     color: gray;
-  }
-  #detail {
+}
+
+#detail {
     background-color: #36454F;
-    height:100px;
+    height: 100px;
     padding-left: 50px;
-    padding-top:25px;
+    padding-top: 25px;
     border-radius: 5px;
-  }
-  #create-btn{
+}
+
+#create-btn {
     color: #fff;
     font-size: 25px;
-  }
-  div.odd, div.even{
-    color: #36454F; 
+}
+
+div.odd, div.even {
+    color: #36454F;
     height: 200px;
     background-color: #f2f2f2;
-    border-bottom:1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
     border-radius: 5px;
-  }
-  div.even{
+}
+
+div.even {
     background-color: #fff;
-  }
-  h2.username-style{
+}
+
+h2.username-style {
     color: #36454F;
     padding-left: 50px;
-    padding-top:25px;
-  }
-  span.date-style, p.description-style{
+    padding-top: 25px;
+}
+
+span.date-style, p.description-style {
     color: #36454F;
     padding-left: 50px;
-   font-size: 25px;
-  }
-div.img-style{
-  
-  position: relative;
-  left: 900px;
-  bottom: 40px;
+    font-size: 25px;
+}
+
+div.img-style {
+    position: relative;
+    left: 900px;
+    bottom: 40px;
+}
+
+.scrollable-div {
+    height: 400px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+}
+
+.iframe-column {
+    display: flex;
+    justify-content: flex-end;
 }

@@ -4,8 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8610f1cf-096c-4dea-82c6-c82d477e99c5" name="Changes" comment="">
+    <list default="true" id="8610f1cf-096c-4dea-82c6-c82d477e99c5" name="Changes" comment="Bug Fix: Chat offline">
+      <change afterPath="$PROJECT_DIR$/views/component/index_head.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/component/sightDetails_head.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/sightController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/sightController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/stylesheets/birdDetailStyles.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/stylesheets/birdDetailStyles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/stylesheets/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/sightDetails.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/sightDetails.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +80,7 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="www" type="NodeJSConfigurationType" path-to-node="$APPLICATION_CONFIG_DIR$/node/node-v16.16.0-win-x64/node" nameIsGenerated="true" path-to-js-file="bin/www" working-dir="$PROJECT_DIR$">
+    <configuration name="www" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="bin/www" working-dir="$PROJECT_DIR$">
       <envs>
         <env name="DEBUG" value="intelligentweb:*" />
       </envs>
@@ -333,6 +341,26 @@
     </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="wzy" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -355,26 +383,6 @@
                 </TextFilterSettings>
               </option>
             </State>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="RECENT_FILTERS">
-      <map>
-        <entry key="User">
-          <value>
-            <list>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="*" />
-                </option>
-              </RecentGroup>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="wzy" />
-                </option>
-              </RecentGroup>
-            </list>
           </value>
         </entry>
       </map>

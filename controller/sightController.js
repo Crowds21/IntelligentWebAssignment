@@ -2,6 +2,7 @@ const SightModel = require("../model/sightModel");
 const Multer = require('multer');
 const ObjectId = require('mongodb').ObjectId;
 const path = require('path');
+const fetch = require('node-fetch')
 
 /**
  * Inserts a new sight into the database.
@@ -194,80 +195,47 @@ function parseImage() {
  * @returns {Promise<Object|null>} A promise that resolves to an object containing the bird's name, abstract, and thumbnail, or null if no results are found.
  */
 async function getBirdInfoFromGraph(birdName) {
-    const query = `
+    birdName = "Domestic goose"
+    const sparqlQuery = `
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     PREFIX dbo: <http://dbpedia.org/ontology/>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-    SELECT ?bird ?label ?abstract ?thumbnail
-    WHERE {
-      ?bird dbo:class dbo:Bird ;
-            rdfs:label ?label ;
-            dbo:abstract ?abstract ;
-            foaf:depiction ?thumbnail .
-     FILTER (LANG(?label) = "en" && LANG(?abstract) = "en" && REGEX(?label, "^${birdName}$", "i")) 
-    }`;
 
-    const encodedQuery = encodeURIComponent(query);
-    const endpoint = `https://dbpedia.org/sparql?query=${encodedQuery}&format=json`;
-    try {
-        const response = await fetch(endpoint);
-        const result = await response.json();
-        if (result.results.bindings.length > 0) {
-            const birdInfo = {
-                name: result.results.bindings[0].label.value,
-                abstract: result.results.bindings[0].abstract.value,
-                thumbnail: result.results.bindings[0].thumbnail.value,
-            };
-            return birdInfo;
-        } else {
-            return null;
-        }
-    } catch (error) {
-        console.error(`Error fetching data from DBpedia: ${error}`);
-        return null;
-    }
-}
-
-/**
- * Makes a request to the DBpedia SPARQL endpoint to retrieve information about bird species.
- * @async
- * @function
- * @returns {Promise<Object[]>} - An array of objects with the URI and name of each bird species.
- * @throws {Error} - If there is an error fetching data from DBpedia.
- */
-async function testDBPedia() {
-    const query = `
-    PREFIX dbo: <http://dbpedia.org/ontology/>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT ?bird ?label
+    SELECT ?commonName ?scientificName ?description ?uri
     WHERE {
-      ?bird dbo:class dbo:Bird ;
-            rdfs:label ?label .
-      FILTER (LANG(?label) = "en")
+      ?bird rdf:type dbo:Bird ;
+            rdfs:label ?commonName ;
+            dbo:binomialAuthority ?scientificName ;
+            dbo:abstract ?description ;
+            foaf:isPrimaryTopicOf ?uri .
+      FILTER (langMatches(lang(?commonName), "en"))
+      FILTER (langMatches(lang(?description), "en"))
+      FILTER (?commonName = "${birdName}"@en)
     }
-    LIMIT 10
+    LIMIT 1
   `;
-    const encodedQuery = encodeURIComponent(query);
-    const endpoint = `https://dbpedia.org/sparql?query=${encodedQuery}&format=json`;
-    try {
-        const response = await fetch(endpoint);
-        const result = await response.json();
-
-        if (result.results.bindings.length > 0) {
-            const birds = result.results.bindings.map(bird => {
-                return {
-                    uri: bird.bird.value,
-                    name: bird.label.value
-                };
-            });
-            return birds;
-        } else {
-            return [];
-        }
-    } catch (error) {
-        console.error(`Error fetching data from DBpedia: ${error}`);
-        return [];
+    const encodedQuery = encodeURIComponent(sparqlQuery);
+    const url = `https://dbpedia.org/sparql?query=${encodedQuery}&format=json`;
+    let birdInfo = {
+        commonName:"Unknown",
+        scientificName:"Unknown",
+        description:"Unknown",
+        uri:"Unknown"
     }
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const results = data.results.bindings[0];
+
+        birdInfo.commonName = results.commonName.value;
+        birdInfo.scientificName = results.scientificName.value;
+        birdInfo.description = results.description.value;
+        birdInfo.uri = results.uri.value;
+    } catch (error) {
+        return birdInfo
+    }
+    return birdInfo
 }
 
 module.exports = {
@@ -279,6 +247,5 @@ module.exports = {
     getSightById,
     getSightListByDateDesc,
     getBirdInfoFromGraph,
-    testDBPedia,
     insertSightFromIndexDB
 }

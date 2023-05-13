@@ -5,7 +5,7 @@ const userController = require('../controller/userController');
 const sightController = require('../controller/sightController');
 const chatController = require('../controller/chatController');
 
-const { response } = require('express');
+const {response} = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
@@ -41,7 +41,7 @@ const storage = multer.diskStorage({
     },
 });
 // Create a multer object that specifies how files are saved
-const upload = multer({ storage: storage });
+const upload = multer({storage: storage});
 
 
 /**
@@ -108,9 +108,14 @@ router.get('/sightDetails/:id', async function (req, res, next) {
     let id = req.params.id;
     console.log("/sightDetails/" + id)
     let recordData = await sightController.getSightById(id);
-    //mock data
+    let birdInfo = await sightController.getBirdInfoFromGraph(recordData.identification)
     let messages = await chatController.getChatList(id)
-    res.render('sightDetails', {record: recordData, messages: messages});
+    res.render('sightDetails', {
+            record: recordData,
+            birdInfo: birdInfo,
+            messages: messages
+        }
+    );
 });
 router.post('/setUser', function (req, res) {
     userController.createUserInMongo(req, res).then(r => {
@@ -155,11 +160,13 @@ router.get('/sightDetails', function (req, res, next) {
 
 router.post('/saveChatList', function (req, res, next) {
     let data = req.body
-    chatController.insertChatList(data).then(r=>{console.log("InsertChatListSuccessfully")})
+    chatController.insertChatList(data).then(r => {
+        console.log("InsertChatListSuccessfully")
+    })
 })
 
 
-router.post('/insertToMongo',async function (req,res,next){
+router.post('/insertToMongo', async function (req, res, next) {
 // 获取base64字符串
     const base64String = req.body[0].image;
 
@@ -175,9 +182,10 @@ router.post('/insertToMongo',async function (req,res,next){
         if (err) {
             // 处理错误
             return next(err);
-        };
+        }
+        ;
         // Save to MongoDB
-        console.log("fileName="+fileName)
+        console.log("fileName=" + fileName)
 
         let sight = new SightModel({
             identification: req.body[0].identification,
@@ -185,7 +193,7 @@ router.post('/insertToMongo',async function (req,res,next){
             date: req.body[0].date,
             user_name: req.body[0].user_name,
             location: req.body[0].location,
-            loc:req.body[0].loc,
+            loc: req.body[0].loc,
             image: fileName
         })
         sightController.insertSightFromIndexDB(sight)
