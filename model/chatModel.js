@@ -1,14 +1,28 @@
-let mongoose = require('mongoose')
-let Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
-let ChatSchema = new Schema(
+/**
+ * @typedef {Object} ChatDocument
+ * @property {string} sight_id - Sight ID.
+ * @property {string} sender_id - Sender ID.
+ * @property {string} content - Chat content.
+ */
+
+const ChatSchema = new mongoose.Schema(
     {
-        sight_id: {type: String, require: true},
-        sender_id: {type: String, require: true, max: 50},
-        content: {type: String, require: true, max: 1000},
+        sight_id: { type: String, required: true },
+        sender_id: { type: String, required: true, maxlength: 50 },
+        content: { type: String, required: true, maxlength: 1000 },
+    },
+    {
+        // Sets the virtuals to be true on the document object.
+        toObject: { virtuals: true },
     }
-)
+);
 
-ChatSchema.set('toObject', {getters: true});
+/**
+ * Chat model.
+ * @typedef {import('mongoose').Model<ChatDocument>} ChatModel
+ */
+const ChatModel = mongoose.model('chat', ChatSchema, 'chats');
 
-module.exports = mongoose.model('chat', ChatSchema, "chats")
+module.exports = ChatModel;
