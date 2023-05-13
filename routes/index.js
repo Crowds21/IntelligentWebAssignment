@@ -1,39 +1,59 @@
-var express = require('express');
-var router = express.Router();
-var userController = require('../controller/userController')
-var sightController = require('../controller/sightController')
-var chatController = require('../controller/chatController')
-const {response} = require("express");
-const multer = require("multer");
+const express = require('express');
+const router = express.Router();
+
+const userController = require('../controller/userController');
+const sightController = require('../controller/sightController');
+const chatController = require('../controller/chatController');
+
+const { response } = require('express');
+const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-const SightModel = require("../model/sightModel");
+const SightModel = require('../model/sightModel');
 
-var storage = multer.diskStorage({
-    // 指定上传文件的保存目录
+/**
+ * Multer configuration to store uploaded files
+ */
+const storage = multer.diskStorage({
+    /**
+     * Specifies the directory where uploaded files will be saved
+     * @param {object} req - Express request object
+     * @param {object} file - File object from request
+     * @param {function} cb - Callback function
+     */
     destination: function (req, file, cb) {
         cb(null, 'public/uploads/');
     },
-    // 指定上传文件的保存名称
+    /**
+     * Specifies the name of the uploaded file
+     * @param {object} req - Express request object
+     * @param {object} file - File object from request
+     * @param {function} cb - Callback function
+     */
     filename: function (req, file, cb) {
-        // 获取上传文件的原始名称
-        var original = file.originalname;
-        // 获取上传文件的扩展名
-        var file_extension = original.split(".");
-        // 将文件名设置为当前日期加上扩展名
-        let filename = Date.now() + '.' + file_extension[file_extension.length - 1];
+        // Get the original file name
+        const original = file.originalname;
+        // Get the file extension
+        const file_extension = original.split('.');
+        // Set the file name to the current date + file extension
+        const filename = `${Date.now()}.${file_extension[file_extension.length - 1]}`;
         cb(null, filename);
-    }
+    },
 });
-// 创建一个 multer 对象，指定文件的保存方式
-var upload = multer({storage: storage});
+// Create a multer object that specifies how files are saved
+const upload = multer({ storage: storage });
 
 
-/* GET home page. */
+/**
+ * Display the loading page
+ */
 router.get('/', async function (req, res, next) {
     res.render('loading')
 });
 
+/**
+ * Display the index page
+ */
 router.get('/index', async function (req, res, next) {
     let location = {
         lat: req.query.lat,
@@ -48,12 +68,18 @@ router.get('/index', async function (req, res, next) {
     })
 })
 
+/**
+ * Display the records page
+ */
 router.get('/records', async function (req, res, next) {
     // TODO Get a location from user
 
     res.render('index', {records: data, title: "sight"});
 });
 
+/**
+ * Display the maps page
+ */
 router.get('/maps', function (req, res, next) {
     let result = sightController.testDBPedia()
     // getBirdInfoFromGraph("chicken").then(result =>{
@@ -63,6 +89,7 @@ router.get('/maps', function (req, res, next) {
     // })
     res.render('maps')
 })
+
 router.get('/sortByDate', async function (req, res, next) {
     let data = await sightController.getSightListByDateDesc()
     console.log(data)
