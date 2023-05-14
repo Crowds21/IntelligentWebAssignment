@@ -3,10 +3,20 @@ async function initPage() {
     let lng = document.getElementById("iframe-record-map").getAttribute("data-record-lng")
     let user = await isDataExist(user_store)
     let username = user.username
+    let deviceId = user.deviceId
     setUsername(username)
     document.getElementById("iframe-record-map").src = createMapIframeSrc(lat, lng)
     await initChatRoom()
     connectToRoom()
+}
+
+function isIdentificationChangeable(local_device_id){
+    // data-device-id="<%= record.device_id %>"
+    let sight_device_id = document.getElementById("user-device-id").getAttribute("data-device-id")
+    if (local_device_id === sight_device_id ){
+
+    }
+    return
 }
 
 function initMap() {
@@ -25,7 +35,6 @@ function initMap() {
         console.log(`Latitude: ${lat}, Longitude: ${lng}`);
     });
 }
-
 
 /**
  * Create the src attribute of the map iframe

@@ -4,7 +4,6 @@ async function initPage() {
         let username = user.username
         setUsername(username)
     } else {
-        // TODO Make the page unselectable when a dialog is popped up and set other content to gray
         showUserSetting()
     }
 }
@@ -18,6 +17,7 @@ function closeModal() {
     var modal = document.getElementById("addSight");
     modal.style.display = "none";
 }
+
 
 
 

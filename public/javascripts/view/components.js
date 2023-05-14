@@ -14,7 +14,8 @@ document.getElementById("user-setting-submit").addEventListener('click', functio
     closeUserSetting()
     let username= document.getElementById("user-setting-input").value;
     let newUser = {
-        username: username
+        username: username,
+        deviceId: generateDeviceId()
     }
     updateSingleton(newUser, user_store, function (data, newData) {
         data.username = newData.username

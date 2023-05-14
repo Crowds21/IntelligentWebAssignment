@@ -148,3 +148,20 @@ function convertBase64ToBlob(base64String) {
     return new Blob([u8arr], {type: mimeType});
 }
 
+
+function generateDeviceId() {
+    const now = new Date();
+    const dateStr = now.getFullYear().toString().padStart(4, '0')
+        + (now.getMonth() + 1).toString().padStart(2, '0')
+        + now.getDate().toString().padStart(2, '0')
+        + now.getHours().toString().padStart(2, '0')
+        + now.getMinutes().toString().padStart(2, '0');
+    const characters = 'abcdefghijklmnopqrstuvwxyz';
+    let randomStr = '';
+    for (let i = 0; i < 5; i++) {
+        randomStr += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    // Generate Device IdyyyymmddHHMM-randomStr(len=5)
+    const deviceId = dateStr + '-' + randomStr;
+    return deviceId
+}
