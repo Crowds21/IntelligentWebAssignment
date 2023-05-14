@@ -18,6 +18,7 @@
                     <span class="datetime card-text">Date:<%= record.date %></span><br>
                     <span class="username card-text">User:<%= record.user_name %></span><br>
                     <span class="description card-text">Description:<%= record.description %></span><br>
+                    <span class="location card-text">Location:<%= record.location%></span><br>
                 </div>
 
                 <iframe id="iframe-record-map" class="col"
@@ -29,6 +30,7 @@
                         src=" " allowfullscreen>
                 </iframe>
                 <br>
+                <button onclick="showModal()">Update Identification</button>
             </div>
         </div>
     </div>
@@ -79,6 +81,40 @@
                     <button id="chat_input_btn" class="btn btn-primary" type="button">Send</button>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div id="updateIdentification" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Update</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        onclick="closeModal()"></button>
+            </div>
+            <form enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3" style="display: none">
+                        <label class="col-form-label">Id:</label>
+                        <input type="text" name="id" class="form-control" id="id" value="<%= id %>">
+                    </div>
+                    <div class="mb-3" style="display: none">
+                        <label class="col-form-label">userName:</label>
+                        <input type="text" name="username" class="form-control" id="username" value="<%= record.user_name %>">
+                    </div>
+                    <div class="mb-3">
+                        <label class="col-form-label">Identification:</label>
+                        <input name="identification" name="identification" class="form-control" id="identification"  value="<%= record.identification %>">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">
+                        Close
+                    </button>
+                    <button type="button" onclick="updateIdentification()" class="btn btn-primary">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
