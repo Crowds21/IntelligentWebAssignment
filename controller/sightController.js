@@ -211,7 +211,7 @@ async function getBirdInfoFromGraph(birdName) {
             foaf:isPrimaryTopicOf ?uri .
       FILTER (langMatches(lang(?commonName), "en"))
       FILTER (langMatches(lang(?description), "en"))
-      FILTER (?commonName = "${birdName}"@en)
+      FILTER regex(?commonName, "${birdName}", "i")
     }
     LIMIT 1
   `;
