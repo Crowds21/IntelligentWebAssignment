@@ -27,7 +27,7 @@
                         <a href="/sightDetails/<%= data._id %>" class="card-link home-page home-page-sight-card"
                            id="<%= data._id %>">
                             <div class="card mb-3">
-                                <img src="uploads/<%= data.image %>" class="card-img-top" alt="">
+                                <img src="uploads/<%= data.image %>" class="card-img-top" alt="" style="height: 250px; width: 100%">
                                 <div class="card-body">
                                     <h5 class="card-title"><%= data.identification %></h5>
                                     <p class="card-id" style="display: none"><%= data._id %> </p>
@@ -78,6 +78,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="col-form-label">Location:</label>
+                        <input name="location" name="location" class="form-control" id="location">
                         <div id="map-container">
                             <label class="visually-hidden" for="map"></label>
                             <div id="map" style="height: 300px; width: 300px;"></div>

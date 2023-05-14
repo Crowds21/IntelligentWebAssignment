@@ -113,7 +113,8 @@ router.get('/sightDetails/:id', async function (req, res, next) {
     res.render('sightDetails', {
             record: recordData,
             birdInfo: birdInfo,
-            messages: messages
+            messages: messages,
+            id:id,
         }
     );
 });

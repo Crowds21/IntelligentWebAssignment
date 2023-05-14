@@ -2,6 +2,7 @@ async function addSight() {
     const date = document.getElementById('date').value;
     const description = document.getElementById('description').value;
     const identification = document.getElementById('identification').value;
+    const location = document.getElementById('location').value;
     const image = document.getElementById('image').files[0];
     const loc = {"lat": sessionStorage.getItem("lat"), "lng": sessionStorage.getItem("lng")}
     const userExist = await isDataExist(user_store)
@@ -12,6 +13,7 @@ async function addSight() {
     sightData.append('date', date);
     sightData.append('description', description);
     sightData.append('identification', identification);
+    sightData.append('location',location);
     sightData.append('image', image);
     sightData.append('user_name', username);
     sightData.append('loc', JSON.stringify(loc));
