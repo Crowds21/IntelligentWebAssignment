@@ -5,18 +5,20 @@ async function initPage() {
     let username = user.username
     let deviceId = user.deviceId
     setUsername(username)
+    isUpdataSightClickable(deviceId)
+    // Set Map
     document.getElementById("iframe-record-map").src = createMapIframeSrc(lat, lng)
     await initChatRoom()
     connectToRoom()
 }
 
-function isIdentificationChangeable(local_device_id){
-    // data-device-id="<%= record.device_id %>"
-    let sight_device_id = document.getElementById("user-device-id").getAttribute("data-device-id")
+function isUpdataSightClickable(local_device_id){
+    let sight_device_id = document.getElementById("sight-info-card").getAttribute("data-device-id")
     if (local_device_id === sight_device_id ){
-
+        document.getElementById("update-sight-btn").style.display = "inline";
+    }else {
+        document.getElementById("update-sight-btn").style.display = "none";
     }
-    return
 }
 
 function initMap() {

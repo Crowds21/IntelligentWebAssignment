@@ -8,13 +8,14 @@ async function addSight() {
     const userExist = await isDataExist(user_store)
     // const userExist = await isUserExist();
     const username = userExist.username;
-
+    const device_id = userExist.deviceId;
     const sightData = new FormData();
     sightData.append('date', date);
     sightData.append('description', description);
     sightData.append('identification', identification);
-    sightData.append('location',location);
+    sightData.append('location', location);
     sightData.append('image', image);
+    sightData.append('device_id', device_id);
     sightData.append('user_name', username);
     sightData.append('loc', JSON.stringify(loc));
 
@@ -98,20 +99,19 @@ async function saveChatContent(user, sight_id, content) {
         console.log("SaveNewChat")
     }).catch(async (error) => {
         await insertChatToStore(chat_store, data)
-        // writeOnHistory(data.user,data.content)
         console.log("ChatInfo InsertIntoIndexedDB")
         registerTag("saveChat")
     })
 }
 
-function registerTag(tagName){
+function registerTag(tagName) {
     new Promise(function (resolve, reject) {
         Notification.requestPermission(function (result) {
             resolve();
         })
     }).then(function () {
         return navigator.serviceWorker.ready;
-    }).then(function (reg){
+    }).then(function (reg) {
         return reg.sync.register(tagName)
         //here register your sync with a tagname and return it
     }).then(function () {
@@ -134,4 +134,27 @@ function registerSyncBird() {
     }).catch(function (err) {
         console.error('Failed to register sync', err.message);
     });
+}
+
+function updateIdentification(){
+    closeModal()
+    let sight_id = document.getElementById("update-sight-idf-id").value
+    let identification = document.getElementById("update-identification").value
+    let data ={
+        sight_id:sight_id,
+        identification:identification
+    }
+    document.getElementById("sight-card-title").innerText = identification
+    fetch('/updateSightIdentification', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(r=>{
+        console.log("Update Successfully")
+    }).catch(async e => {
+        await insertChatToStore(update_store, data)
+        registerTag("updateIdentification")
+    })
 }

@@ -6,7 +6,7 @@
 <%- include ('./component/user-setting.ejs') %>
 
 
-<div class="card mb-3 h-auto" style="max-width: 100%;">
+<div class="card mb-3 h-auto" id="sight-info-card" data-device-id="<%= record.device_id %>" style="max-width: 100%;">
     <div class="row no-gutters">
         <div class="col-md-4">
             <img src="/uploads/<%= record.image %>" class="card-img" alt="Bird" height="300" width="150">
@@ -14,11 +14,11 @@
         <div class="col-md-8">
             <div class="card-body">
                 <div class="col">
-                    <h5 class="card-title "><%= record.identification %></h5>
+                    <h5 id="sight-card-title" class="card-title "><%= record.identification %></h5>
                     <span class="datetime card-text">Date:<%= record.date %></span><br>
                     <span class="username card-text">User:<%= record.user_name %></span><br>
                     <span class="description card-text">Description:<%= record.description %></span><br>
-                    <span class="location card-text">Location:<%= record.location%></span><br>
+                    <span class="location card-text">Location:<%= record.location %></span><br>
                 </div>
 
                 <iframe id="iframe-record-map" class="col"
@@ -30,7 +30,9 @@
                         src=" " allowfullscreen>
                 </iframe>
                 <br>
-                <button onclick="showModal()">Update Identification</button>
+                <button id="update-sight-btn" class="btn btn-primary mr-2" onclick="showModal()" style="display: none">
+                    Update Identification
+                </button>
             </div>
         </div>
     </div>
@@ -93,19 +95,24 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                         onclick="closeModal()"></button>
             </div>
+
+
+            <!--Update Identification-->
             <form enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="mb-3" style="display: none">
                         <label class="col-form-label">Id:</label>
-                        <input type="text" name="id" class="form-control" id="id" value="<%= id %>">
+                        <input type="text" name="id" class="form-control" id="update-sight-idf-id" value="<%= id %>">
                     </div>
                     <div class="mb-3" style="display: none">
                         <label class="col-form-label">userName:</label>
-                        <input type="text" name="username" class="form-control" id="username" value="<%= record.user_name %>">
+                        <input type="text" name="username" class="form-control" id="username"
+                               value="<%= record.user_name %>">
                     </div>
                     <div class="mb-3">
                         <label class="col-form-label">Identification:</label>
-                        <input name="identification" name="identification" class="form-control" id="identification"  value="<%= record.identification %>">
+                        <input name="identification" name="identification" class="form-control" id="update-identification"
+                               value="<%= record.identification %>">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -115,6 +122,7 @@
                     <button type="button" onclick="updateIdentification()" class="btn btn-primary">Save</button>
                 </div>
             </form>
+
         </div>
     </div>
 </div>

@@ -105,16 +105,16 @@ router.get('/sortByDistance', async function (req, res, next) {
     res.render('index', {records: data})
 })
 router.get('/sightDetails/:id', async function (req, res, next) {
-    let id = req.params.id;
-    console.log("/sightDetails/" + id)
-    let recordData = await sightController.getSightById(id);
+    let sight_id = req.params.id;
+    console.log("/sightDetails/" + sight_id)
+    let recordData = await sightController.getSightById(sight_id);
     let birdInfo = await sightController.getBirdInfoFromGraph(recordData.identification)
-    let messages = await chatController.getChatList(id)
+    let messages = await chatController.getChatList(sight_id)
     res.render('sightDetails', {
             record: recordData,
             birdInfo: birdInfo,
             messages: messages,
-            id:id,
+            id: sight_id,
         }
     );
 });
@@ -200,6 +200,19 @@ router.post('/insertToMongo', async function (req, res, next) {
         sightController.insertSightFromIndexDB(sight)
         return res.status(200).json({message: 'Success'});
     });
+})
+
+router.post('/updateSightIdentification',function (req, res, next) {
+    let data = req.body
+    sightController.updateSightIdentification(data.sight_id,data.identification)
+    return res.status(200);
+})
+
+router.post('/updateSightIdentList',function (req, res, next){
+    let data = req.body
+    for(let index in data){
+        sightController.updateSightIdentification(data[index].sight_id,data[index].identification)
+    }
 })
 
 function base64ToBuffer(base64) {

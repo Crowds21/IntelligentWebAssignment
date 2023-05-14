@@ -2,8 +2,9 @@ const user_store = "user"
 const location_store = "location"
 const sight_store = "bird"
 const chat_store = "chat"
+const update_store="identification"
 const index_name = "bird_sight"
-const index_version = 5
+const index_version = 6
 
 const handleSuccess = async (event) => {
     console.log("Open indexedDB successfully")
@@ -12,7 +13,6 @@ const handleSuccess = async (event) => {
 
 const handleUpgrade = (event) => {
     let db = event.target.result;
-
     function createStore(storeName) {
         if (!db.objectStoreNames.contains(storeName)) {
             db.createObjectStore(storeName, {keyPath: "id", autoIncrement: true})
@@ -23,6 +23,7 @@ const handleUpgrade = (event) => {
     createStore(sight_store)
     createStore(location_store)
     createStore(chat_store)
+    createStore(update_store)
     console.log("Upgrade indexedDB successfully")
 }
 
