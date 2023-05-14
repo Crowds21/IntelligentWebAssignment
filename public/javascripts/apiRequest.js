@@ -86,6 +86,7 @@ async function saveChatContent(user, sight_id, content) {
         sight_id: sight_id,
         content: content
     }
+    writeOnHistory(user, content);
     fetch('/saveChatContent', {
         method: 'POST',
         headers: {
@@ -97,7 +98,7 @@ async function saveChatContent(user, sight_id, content) {
         console.log("SaveNewChat")
     }).catch(async (error) => {
         await insertChatToStore(chat_store, data)
-        writeOnHistory(data.user,data.content)
+        // writeOnHistory(data.user,data.content)
         console.log("ChatInfo InsertIntoIndexedDB")
         registerTag("saveChat")
     })
