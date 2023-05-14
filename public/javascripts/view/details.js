@@ -73,4 +73,5 @@ function showModal() {
 function closeModal() {
     var modal = document.getElementById("updateIdentification");
     modal.style.display = "none";
+    window.location.reload();
 }
