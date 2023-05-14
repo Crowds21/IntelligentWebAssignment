@@ -226,12 +226,10 @@ async function getBirdInfoFromGraph(birdName) {
             foaf:isPrimaryTopicOf ?uri .
       FILTER (langMatches(lang(?commonName), "en"))
       FILTER (langMatches(lang(?description), "en"))
-      FILTER (CONTAINS(?commonName, "${birdName}"))
-      
+      FILTER regex(?commonName, "${birdName}", "i")
     }
     LIMIT 1
   `;
-    // FILTER (?commonName = "${birdName}"@en)
     const encodedQuery = encodeURIComponent(sparqlQuery);
     const url = `https://dbpedia.org/sparql?query=${encodedQuery}&format=json`;
     let birdInfo = {
