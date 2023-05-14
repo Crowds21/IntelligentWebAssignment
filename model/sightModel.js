@@ -13,6 +13,7 @@ const mongoose = require("mongoose");
  */
 
 const SightSchema = mongoose.Schema({
+    device_id:{type:String,required:true},
     identification: {type: String, required: true},
     description: {type: String, required: true},
     date: {type: String, required: true},

@@ -2,8 +2,9 @@ const user_store = "user"
 const location_store = "location"
 const sight_store = "bird"
 const chat_store = "chat"
+const update_store="identification"
 const index_name = "bird_sight"
-const index_version = 5
+const index_version = 6
 
 const handleSuccess = async (event) => {
     console.log("Open indexedDB successfully")
@@ -12,7 +13,6 @@ const handleSuccess = async (event) => {
 
 const handleUpgrade = (event) => {
     let db = event.target.result;
-
     function createStore(storeName) {
         if (!db.objectStoreNames.contains(storeName)) {
             db.createObjectStore(storeName, {keyPath: "id", autoIncrement: true})
@@ -23,6 +23,7 @@ const handleUpgrade = (event) => {
     createStore(sight_store)
     createStore(location_store)
     createStore(chat_store)
+    createStore(update_store)
     console.log("Upgrade indexedDB successfully")
 }
 
@@ -148,3 +149,20 @@ function convertBase64ToBlob(base64String) {
     return new Blob([u8arr], {type: mimeType});
 }
 
+
+function generateDeviceId() {
+    const now = new Date();
+    const dateStr = now.getFullYear().toString().padStart(4, '0')
+        + (now.getMonth() + 1).toString().padStart(2, '0')
+        + now.getDate().toString().padStart(2, '0')
+        + now.getHours().toString().padStart(2, '0')
+        + now.getMinutes().toString().padStart(2, '0');
+    const characters = 'abcdefghijklmnopqrstuvwxyz';
+    let randomStr = '';
+    for (let i = 0; i < 5; i++) {
+        randomStr += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    // Generate Device IdyyyymmddHHMM-randomStr(len=5)
+    const deviceId = dateStr + '-' + randomStr;
+    return deviceId
+}

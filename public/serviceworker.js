@@ -3,7 +3,8 @@ const location_store = "location"
 const sight_store = "bird"
 const chat_store = "chat"
 const index_name = "bird_sight"
-const index_version = 5
+const update_store="identification"
+const index_version = 6
 const indexDB = indexedDB.open(index_name, index_version)
 
 
@@ -71,15 +72,6 @@ self.addEventListener("fetch", function (event) {
     );
 });
 
-
-
-self.addEventListener('sync', event => {
-    console.log("SYNC!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    if (event.tag === 'sync-data') {
-        event.waitUntil(syncData());
-    }
-});
-
 async function syncData() {
     try {
         const data = await getDataFromIndexedDB();
@@ -130,16 +122,16 @@ async function sendDataToServer(data) {
     });
 }
 
-
-
-
-
 self.addEventListener('sync', (event) => {
     console.log("ServiceWorker - sync")
     if (event.tag === 'saveChat') {
-        uploadChatData().then(r => {
-            console.log("SaveChat: UploadData Successfully")
-        })
+        event.waitUntil(uploadChatData())
+    }
+    if (event.tag === 'updateIdentification'){
+        event.waitUntil(uploadNewIdentification())
+    }
+    if (event.tag === 'sync-data') {
+        event.waitUntil(syncData());
     }
     console.log("Serviceworker Sync Listener");
     console.info('Event: Sync', event);
@@ -148,7 +140,6 @@ self.addEventListener('sync', (event) => {
 async function uploadChatData() {
     let dataList = await getAllData(chat_store);
     let newData = []
-
     for (let index in dataList) {
         newData.push({
             user: dataList[index].user,
@@ -156,7 +147,6 @@ async function uploadChatData() {
             content: dataList[index].content
         })
     }
-
     fetch('/saveChatList', {
         method: 'POST',
         headers: {
@@ -166,10 +156,31 @@ async function uploadChatData() {
     }).then(() => {
         console.log("Upload Chat Successfully")
     })
-
     await deleteAllData(chat_store)
 }
 
+async function uploadNewIdentification(){
+    let dataList = await getAllData(update_store);
+    let newData = []
+    for (let index in dataList) {
+        newData.push({
+            sight_id: dataList[index].sight_id,
+            identification: dataList[index].identification
+        })
+    }
+    fetch('/updateSightIdentList', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newData)
+    }).then(r =>{
+       console.log("Upload new identification")
+    }).then(error =>{
+        console.log("Upload new identification error")
+    })
+    await deleteAllData(update_store)
+}
 async function getStore(storeName, mode) {
     let db = await indexDB.result
     const transaction = db.transaction([storeName], mode)

@@ -3,10 +3,22 @@ async function initPage() {
     let lng = document.getElementById("iframe-record-map").getAttribute("data-record-lng")
     let user = await isDataExist(user_store)
     let username = user.username
+    let deviceId = user.deviceId
     setUsername(username)
+    isUpdataSightClickable(deviceId)
+    // Set Map
     document.getElementById("iframe-record-map").src = createMapIframeSrc(lat, lng)
     await initChatRoom()
     connectToRoom()
+}
+
+function isUpdataSightClickable(local_device_id){
+    let sight_device_id = document.getElementById("sight-info-card").getAttribute("data-device-id")
+    if (local_device_id === sight_device_id ){
+        document.getElementById("update-sight-btn").style.display = "inline";
+    }else {
+        document.getElementById("update-sight-btn").style.display = "none";
+    }
 }
 
 function initMap() {
@@ -25,7 +37,6 @@ function initMap() {
         console.log(`Latitude: ${lat}, Longitude: ${lng}`);
     });
 }
-
 
 /**
  * Create the src attribute of the map iframe

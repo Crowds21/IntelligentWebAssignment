@@ -12,12 +12,13 @@ const fetch = require('node-fetch')
 async function insertSight(req) {
     var sightData = req.body;
     let sight = new SightModel({
+        device_id: sightData.device_id,
         identification: sightData.identification,
         description: sightData.description,
         date: sightData.date,
         user_name: sightData.user_name,
         location: sightData.location,
-        loc:JSON.parse(sightData.loc),
+        loc: JSON.parse(sightData.loc),
         image: path.basename(req.file.path)
     })
     let result = await sight.save()
@@ -68,7 +69,7 @@ async function getSightById(id) {
  * @param {Object} currentLocation - The location to sort by.
  * @returns {Promise<Object[]>}
  */
-async function getSightsByLocation( currentLocation) {
+async function getSightsByLocation(currentLocation) {
     const allSights = await getSightList()
     const sightsWithDistance = allSights.map(sight => {
         const distance = calculateDistance(currentLocation, sight.loc);
@@ -119,6 +120,20 @@ function calculateDistance(currentLocation, sightLocation) {
         return dist;
     }
 }
+
+async function updateSightIdentification(sight_id, identification) {
+    try {
+        const updatedSight = await SightModel.findByIdAndUpdate(
+            sight_id,
+            {identification: identification},
+            {new: true}
+        );
+        return updatedSight;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 /**
  * Initialize the common and insert data into it,
@@ -242,5 +257,6 @@ module.exports = {
     getSightById,
     getSightListByDateDesc,
     getBirdInfoFromGraph,
-    insertSightFromIndexDB
+    insertSightFromIndexDB,
+    updateSightIdentification
 }
