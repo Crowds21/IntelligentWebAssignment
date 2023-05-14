@@ -24,7 +24,9 @@ async function initChatRoom() {
     });
     // List who send the msg
     socket.on('chat', function (room, userId, content) {
-        writeOnHistory(userId, content);
+        if(userId !== name){
+            writeOnHistory(userId, content);
+        }
     });
 
 }

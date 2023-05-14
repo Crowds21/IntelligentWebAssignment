@@ -195,7 +195,7 @@ function parseImage() {
  * @returns {Promise<Object|null>} A promise that resolves to an object containing the bird's name, abstract, and thumbnail, or null if no results are found.
  */
 async function getBirdInfoFromGraph(birdName) {
-    birdName = "Domestic goose"
+    // birdName = "Domestic goose"
     const sparqlQuery = `
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     PREFIX dbo: <http://dbpedia.org/ontology/>
