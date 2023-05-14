@@ -53,3 +53,13 @@ document.getElementById("chat_input_btn").addEventListener('click',async functio
         console.log("SaveChatContent")
     })
 })
+
+function showModal() {
+    var modal = document.getElementById("updateIdentification");
+    modal.style.display = "block";
+}
+
+function closeModal() {
+    var modal = document.getElementById("updateIdentification");
+    modal.style.display = "none";
+}
