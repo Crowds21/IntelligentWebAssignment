@@ -24,7 +24,7 @@ async function initChatRoom() {
     });
     // List who send the msg
     socket.on('chat', function (room, userId, content) {
-            writeOnHistory(userId,content);
+        writeOnHistory(userId, content);
     });
 
 }
@@ -52,11 +52,17 @@ function connectToRoom() {
  * @param date Date of sending msg
  * @param content Content of msg
  */
-function writeOnHistory(user,content) {
-    let chatTemplate = `<div class="container even"><div class="row table-secondary"><div class="col-md-3"><h2 class="username-style">${user}</h2><div class="row">
-                    <div class="col-md-3 py-4"></div>
-                    </div></div>
-                <div class="col-md-8 py-4"><p class="description-style">${content}</p></div></div></div>`
+function writeOnHistory(user, content) {
+    let chatTemplate = `
+                <div class="row table-secondary">
+                <div class="col-md-3">
+                    <h2 class="username-style"> ${user} </h2>
+                </div>
+                <div class="col-md-8 py-4">
+                    <p class="description-style">${content}</p>
+                </div>
+            </div>
+    `
     let history = document.getElementById('chat_board_container');
     const parser = new DOMParser();
     let chatHtml = parser.parseFromString(chatTemplate, 'text/html');
