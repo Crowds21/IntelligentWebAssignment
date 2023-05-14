@@ -198,27 +198,23 @@ async function getBirdInfoFromGraph(birdName) {
     // birdName = "Domestic goose"
     const sparqlQuery = `
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX dbo: <http://dbpedia.org/ontology/>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-
-    SELECT ?commonName ?scientificName ?description ?uri
-    WHERE {
-      ?bird rdf:type dbo:Bird ;
-            rdfs:label ?commonName ;
-            dbo:binomialAuthority ?scientificName ;
-            dbo:abstract ?description ;
+    
+    SELECT ?scientificName ?description ?uri WHERE {
+      ?bird a <http://dbpedia.org/ontology/Bird> ;
+            rdfs:label ?scientificName ;
+            rdfs:comment ?description ;
             foaf:isPrimaryTopicOf ?uri .
-      FILTER (langMatches(lang(?commonName), "en"))
-      FILTER (langMatches(lang(?description), "en"))
-      FILTER regex(?commonName, "${birdName}", "i")
+      FILTER(LANGMATCHES(LANG(?scientificName ), 'en'))
+      FILTER(LANGMATCHES(LANG(?description), 'en'))
+      FILTER(CONTAINS(LCASE(?scientificName ), "${birdName}"))
     }
-    LIMIT 1
+limit 1
   `;
     const encodedQuery = encodeURIComponent(sparqlQuery);
     const url = `https://dbpedia.org/sparql?query=${encodedQuery}&format=json`;
     let birdInfo = {
-        commonName:"Unknown",
         scientificName:"Unknown",
         description:"Unknown",
         uri:"Unknown"
@@ -228,7 +224,6 @@ async function getBirdInfoFromGraph(birdName) {
         const data = await response.json();
         const results = data.results.bindings[0];
 
-        birdInfo.commonName = results.commonName.value;
         birdInfo.scientificName = results.scientificName.value;
         birdInfo.description = results.description.value;
         birdInfo.uri = results.uri.value;
