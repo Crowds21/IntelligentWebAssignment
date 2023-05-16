@@ -1,3 +1,8 @@
+const favicon = require('serve-favicon');
+// const logger = require('morgan');
+const bodyParser = require('body-parser');
+const definition = require('./output_v4.json');
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -8,6 +13,13 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
+// swagger api
+const swaggerInstall = require('./util/swagger')
+const {error} = require("swagger-node-express");
+swaggerInstall(app)
+
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 // Configure view engine and views directory
 app.set('views', path.join(__dirname, 'views'));
@@ -29,7 +41,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Mount routers for handling requests
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
+const specs = swaggerJsdoc({definition,apis: ["./routes/*.js"]});
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs, { explorer: true })
+);
 // Middleware for handling 404 errors
 app.use(function(req, res, next) {
   next(createError(404));

@@ -1,0 +1,195 @@
+{
+  "definitions": {},
+  "info": {
+    "title": "intelligentweb",
+    "version": "0.0.0",
+    "description": "Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3)."
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "/",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/index": {
+      "get": {
+        "summary": "/index",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html>\n<head>\n    <title>BirdSight</title>\n    <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\"\n          integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\"/>\n    <script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\"\n            integrity=\"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo\"\n            crossorigin=\"anonymous\"></script>\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js\"\n            integrity=\"sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1\"\n            crossorigin=\"anonymous\"></script>\n    <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js\"\n            integrity=\"sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM\"\n            crossorigin=\"anonymous\">\n        <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n            <link href=\"https://getbootstrap.com/docs/5.3/assets/css/docs.css\" rel=\"stylesheet\">\n                <script type=\"module\" src=\"/javascripts/indexedDB.js\"></script>\n\n    <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js\"></script>\n\n    <script type=\"text/javascript\" src=\"/javascripts/indexedDB.js\"></script>\n    <script type=\"text/javascript\" src=\"/javascripts/apiRequest.js\" defer></script>\n    <script src=\"/javascripts/workerRegister.js\"></script>\n    <!--Load indexedDB first-->\n    <script type=\"text/javascript\" src=\"/javascripts/view/components.js\" defer></script>\n    <script type=\"text/javascript\" src=\"/javascripts/view/index.js\" defer></script>\n<!--    <script src=\"https://polyfill.io/v3/polyfill.min.js?features=default\"></script>-->\n    <script src=\"https://maps.googleapis.com/maps/api/js?key=AIzaSyAM-bshugA-Y5IFRz4k18zWvxsntiU4sqs&callback=initMap\" async defer></script>\n    <script src=\"/javascripts/location.js\"></script>\n\n    <style>\n        .modal-body {\n            max-height: 500px;\n            overflow-y: auto;\n        }\n    </style>\n</head>\n<body onload=\"initPage()\">\n<nav class=\"navbar navbar-expand-lg navbar-light bg-light\" style=\"box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);\">\n    <div class=\"container-fluid\">\n        <a class=\"navbar-brand\" href=\"/\">BirdSight</a>\n        <div>\n            <ul class=\"navbar-nav align-items-center\">\n                <li class=\"nav-item\">\n                    <button id=\"user-setting-btn\" type=\"button\" class=\"btn p-0 border-0\">\n                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\"\n                             class=\"bi bi-nut\"\n                             viewBox=\"0 0 16 16\">\n                            <path d=\"m11.42 2 3.428 6-3.428 6H4.58L1.152 8 4.58 2h6.84zM4.58 1a1 1 0 0 0-.868.504l-3.428 6a1 1 0 0 0 0 .992l3.428 6A1 1 0 0 0 4.58 15h6.84a1 1 0 0 0 .868-.504l3.429-6a1 1 0 0 0 0-.992l-3.429-6A1 1 0 0 0 11.42 1H4.58z\"/>\n                            <path d=\"M6.848 5.933a2.5 2.5 0 1 0 2.5 4.33 2.5 2.5 0 0 0-2.5-4.33zm-1.78 3.915a3.5 3.5 0 1 1 6.061-3.5 3.5 3.5 0 0 1-6.062 3.5z\"/>\n                        </svg>\n                    </button>\n                </li>\n                <li class=\"nav-item\">\n                    <a class=\"nav-link\" href=\"#\">\n                        <i class=\"bi bi-nut\"></i>\n                        <div id=\"navbar-username\">Username</div>\n                    </a>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>\n\n<div class=\"modal\" id=\"user-setting-dialog\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"editModalLabel\"\n     aria-hidden=\"true\" style=\"display: none\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h5 class=\"modal-title\" id=\"username-modal-title\">Set Username</h5>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"form-group\">\n                    <label for=\"username-input\">Username:</label>\n                    <input type=\"text\" class=\"form-control\" id=\"user-setting-input\">\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"user-setting-cancel\" data-dismiss=\"modal\">Cancel\n                </button>\n                <button type=\"button\" class=\"btn btn-primary\" id=\"user-setting-submit\">Submit</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n<div class=\"container my-5\">\n    <div class=\"row mb-3\">\n        <div class=\"col\">\n            <button type=\"button\" class=\"btn btn-primary mr-2\" id=\"create-btn\" onclick=\"showCreate()\">Create</button>\n            <ul class=\"nav nav-tabs\" id=\"myTab\" >\n                <li class=\"nav-item\">\n                    <button class=\"nav-link active\" id=\"home-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#home\" type=\"button\" role=\"tab\" aria-controls=\"home\" aria-selected=\"true\" >By Date</button>\n                </li>\n                <li class=\"nav-item\">\n                    <button class=\"nav-link\" id=\"profile-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#profile\" type=\"button\" role=\"tab\" aria-controls=\"profile\" aria-selected=\"false\" >By Location</button>\n                </li>\n            </ul>\n        </div>\n    </div>\n    <div class=\"tab-content\" id=\"myTabContent\">\n        <div class=\"tab-pane active\" id=\"home\" role=\"tabpanel\" aria-labelledby=\"home-tab\" tabindex=\"0\">\n            <div class=\"row\" id = \"cardRow\">\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645f8f61d7438e12aceecb7a\">\n                        <a href=\"/sightDetails/645f8f61d7438e12aceecb7a\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645f8f61d7438e12aceecb7a\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683984225607.png\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">ss</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645f8f61d7438e12aceecb7a </p>\n                                    <p class=\"card-username\">DPR </p>\n                                    <p class=\"card-date\"> 2023-06-26</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645f8e8c9fb06c33bc10834a\">\n                        <a href=\"/sightDetails/645f8e8c9fb06c33bc10834a\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645f8e8c9fb06c33bc10834a\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683984012459.png\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">Not sure yet</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645f8e8c9fb06c33bc10834a </p>\n                                    <p class=\"card-username\">DPR </p>\n                                    <p class=\"card-date\"> 2023-05-30</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645b7f4faa630e10a8364d83\">\n                        <a href=\"/sightDetails/645b7f4faa630e10a8364d83\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645b7f4faa630e10a8364d83\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683717967356.png\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">IDK</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645b7f4faa630e10a8364d83 </p>\n                                    <p class=\"card-username\">Pradeep </p>\n                                    <p class=\"card-date\"> 2023-05-26</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645b7f20aa630e10a8364d7f\">\n                        <a href=\"/sightDetails/645b7f20aa630e10a8364d7f\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645b7f20aa630e10a8364d7f\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683717920812.png\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">IDK</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645b7f20aa630e10a8364d7f </p>\n                                    <p class=\"card-username\">Pradeep </p>\n                                    <p class=\"card-date\"> 2023-05-11</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"6453bd55291929129c201c66\">\n                        <a href=\"/sightDetails/6453bd55291929129c201c66\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"6453bd55291929129c201c66\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683209557708.jpg\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">IDK</h5>\n                                    <p class=\"card-id\" style=\"display: none\">6453bd55291929129c201c66 </p>\n                                    <p class=\"card-username\">Pradeep </p>\n                                    <p class=\"card-date\"> 2023-05-10</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645f9165ee16fd34c03b2113\">\n                        <a href=\"/sightDetails/645f9165ee16fd34c03b2113\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645f9165ee16fd34c03b2113\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683984741334.png\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">Not sure yet</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645f9165ee16fd34c03b2113 </p>\n                                    <p class=\"card-username\">DPR </p>\n                                    <p class=\"card-date\"> 2023-05-10</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645f937caeb5222408a4f252\">\n                        <a href=\"/sightDetails/645f937caeb5222408a4f252\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645f937caeb5222408a4f252\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683985276038.png\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">Not sure yet</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645f937caeb5222408a4f252 </p>\n                                    <p class=\"card-username\">DPR </p>\n                                    <p class=\"card-date\"> 2023-05-10</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645f8e529fb06c33bc108344\">\n                        <a href=\"/sightDetails/645f8e529fb06c33bc108344\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645f8e529fb06c33bc108344\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683983954807.jpeg\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">Not sure yet</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645f8e529fb06c33bc108344 </p>\n                                    <p class=\"card-username\">DPR </p>\n                                    <p class=\"card-date\"> 2023-05-05</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n            </div>\n        </div>\n        <div class=\"tab-pane\" id=\"profile\" role=\"tabpanel\" aria-labelledby=\"profile-tab\" tabindex=\"0\">\n            <div class=\"row\" id = \"cardRow\">\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645f8f61d7438e12aceecb7a\">\n                        <a href=\"/sightDetails/645f8f61d7438e12aceecb7a\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645f8f61d7438e12aceecb7a\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683984225607.png\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">ss</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645f8f61d7438e12aceecb7a </p>\n                                    <p class=\"card-username\">DPR </p>\n                                    <p class=\"card-date\"> 2023-06-26</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645b7f20aa630e10a8364d7f\">\n                        <a href=\"/sightDetails/645b7f20aa630e10a8364d7f\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645b7f20aa630e10a8364d7f\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683717920812.png\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">IDK</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645b7f20aa630e10a8364d7f </p>\n                                    <p class=\"card-username\">Pradeep </p>\n                                    <p class=\"card-date\"> 2023-05-11</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645b7f4faa630e10a8364d83\">\n                        <a href=\"/sightDetails/645b7f4faa630e10a8364d83\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645b7f4faa630e10a8364d83\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683717967356.png\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">IDK</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645b7f4faa630e10a8364d83 </p>\n                                    <p class=\"card-username\">Pradeep </p>\n                                    <p class=\"card-date\"> 2023-05-26</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645f9165ee16fd34c03b2113\">\n                        <a href=\"/sightDetails/645f9165ee16fd34c03b2113\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645f9165ee16fd34c03b2113\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683984741334.png\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">Not sure yet</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645f9165ee16fd34c03b2113 </p>\n                                    <p class=\"card-username\">DPR </p>\n                                    <p class=\"card-date\"> 2023-05-10</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"6453bd55291929129c201c66\">\n                        <a href=\"/sightDetails/6453bd55291929129c201c66\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"6453bd55291929129c201c66\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683209557708.jpg\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">IDK</h5>\n                                    <p class=\"card-id\" style=\"display: none\">6453bd55291929129c201c66 </p>\n                                    <p class=\"card-username\">Pradeep </p>\n                                    <p class=\"card-date\"> 2023-05-10</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645f8e8c9fb06c33bc10834a\">\n                        <a href=\"/sightDetails/645f8e8c9fb06c33bc10834a\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645f8e8c9fb06c33bc10834a\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683984012459.png\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">Not sure yet</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645f8e8c9fb06c33bc10834a </p>\n                                    <p class=\"card-username\">DPR </p>\n                                    <p class=\"card-date\"> 2023-05-30</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645f8e529fb06c33bc108344\">\n                        <a href=\"/sightDetails/645f8e529fb06c33bc108344\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645f8e529fb06c33bc108344\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683983954807.jpeg\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">Not sure yet</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645f8e529fb06c33bc108344 </p>\n                                    <p class=\"card-username\">DPR </p>\n                                    <p class=\"card-date\"> 2023-05-05</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n                    <div class=\"col-md-4 home-page-sight-card\" id=\"645f937caeb5222408a4f252\">\n                        <a href=\"/sightDetails/645f937caeb5222408a4f252\" class=\"card-link home-page home-page-sight-card\"\n                           id=\"645f937caeb5222408a4f252\">\n                            <div class=\"card mb-3\">\n                                <img src=\"uploads/1683985276038.png\" class=\"card-img-top\" alt=\"\">\n                                <div class=\"card-body\">\n                                    <h5 class=\"card-title\">Not sure yet</h5>\n                                    <p class=\"card-id\" style=\"display: none\">645f937caeb5222408a4f252 </p>\n                                    <p class=\"card-username\">DPR </p>\n                                    <p class=\"card-date\"> 2023-05-10</p>\n                                </div>\n                            </div>\n                        </a>\n                    </div>\n                \n            </div>\n        </div>\n    </div>\n</div>\n<div id=\"addSight\" class=\"modal\" tabindex=\"-1\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h1 class=\"modal-title fs-5\" id=\"exampleModalLabel\">New Sighting</h1>\n                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"\n                        onclick=\"closeModal()\"></button>\n            </div>\n            <form enctype=\"multipart/form-data\">\n                <div class=\"modal-body\">\n                    <div class=\"mb-3\">\n                        <label class=\"col-form-label\">Date:</label>\n                        <input type=\"date\" name=\"date\" class=\"form-control\" id=\"date\">\n                    </div>\n                    <!--                    <div class=\"mb-3\">-->\n                    <!--                        <label class=\"col-form-label\">Location:</label>-->\n                    <!--                        <input type=\"text\" name=\"location\" class=\"form-control\" id=\"location\">-->\n                    <!--                    </div>-->\n                    <!--In create details-->\n                    <div class=\"mb-3\">\n                        <label class=\"col-form-label\">Location:</label>\n                        <div id=\"map-container\">\n                            <label class=\"visually-hidden\" for=\"map\"></label>\n                            <div id=\"map\" style=\"height: 300px; width: 300px;\"></div>\n                        </div>\n                    </div>\n                    <div class=\"mb-3\">\n                        <label class=\"col-form-label\">Description:</label>\n                        <input name=\"description\" name=\"description\" class=\"form-control\" id=\"description\">\n                    </div>\n                    <div class=\"mb-3\">\n                        <label class=\"col-form-label\">Identification:</label>\n                        <input name=\"identification\" name=\"identification\" class=\"form-control\" id=\"identification\">\n                    </div>\n                    <div class=\"mb-3\">\n                        <label class=\"col-form-label\">Image:</label>\n                        <input type=\"file\" name=\"image\" id=\"image\" class=\"form-control\">\n                    </div>\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\" onclick=\"closeModal()\">\n                        Close\n                    </button>\n                    <button type=\"button\" onclick=\"addSight()\" class=\"btn btn-primary\">Save</button>\n                </div>\n            </form>\n        </div>\n    </div>\n</div>\n</body>\n</html>"
+            }
+          }
+        },
+        "tags": [],
+        "produces": [
+          "text/html"
+        ]
+      }
+    },
+    "/records": {
+      "get": {
+        "summary": "/records",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/maps": {
+      "get": {
+        "summary": "/maps",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/sortByDate": {
+      "get": {
+        "summary": "/sortByDate",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/sortByDistance": {
+      "get": {
+        "summary": "/sortByDistance",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/sightDetails/{id}": {
+      "get": {
+        "summary": "/sightDetails/{id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string",
+              "example": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Details</title>\n    <!--    <link rel='stylesheet' href='/stylesheets/style.css'/>-->\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n    <link href=\"https://getbootstrap.com/docs/5.3/assets/css/docs.css\" rel=\"stylesheet\">\n    <script src=\"https://cdn.socket.io/4.5.4/socket.io.min.js\"></script>\n    <script type=\"text/javascript\" src=\"/javascripts/indexedDB.js\"></script>\n    <script type=\"text/javascript\" src=\"/javascripts/apiRequest.js\" defer></script>\n    <script type=\"text/javascript\" src=\"/javascripts/view/components.js\" defer></script>\n    <script type=\"text/javascript\" src=\"/javascripts/view/details.js\" defer></script>\n    <script type=\"text/javascript\" src=\"/javascripts/chat.js\"></script>\n\n\n</head>\n<body onload=\"initPage()\">\n<nav class=\"navbar navbar-expand-lg navbar-light bg-light\" style=\"box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);\">\n    <div class=\"container-fluid\">\n        <a class=\"navbar-brand\" href=\"/\">BirdSight</a>\n        <div>\n            <ul class=\"navbar-nav align-items-center\">\n                <li class=\"nav-item\">\n                    <button id=\"user-setting-btn\" type=\"button\" class=\"btn p-0 border-0\">\n                        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\"\n                             class=\"bi bi-nut\"\n                             viewBox=\"0 0 16 16\">\n                            <path d=\"m11.42 2 3.428 6-3.428 6H4.58L1.152 8 4.58 2h6.84zM4.58 1a1 1 0 0 0-.868.504l-3.428 6a1 1 0 0 0 0 .992l3.428 6A1 1 0 0 0 4.58 15h6.84a1 1 0 0 0 .868-.504l3.429-6a1 1 0 0 0 0-.992l-3.429-6A1 1 0 0 0 11.42 1H4.58z\"/>\n                            <path d=\"M6.848 5.933a2.5 2.5 0 1 0 2.5 4.33 2.5 2.5 0 0 0-2.5-4.33zm-1.78 3.915a3.5 3.5 0 1 1 6.061-3.5 3.5 3.5 0 0 1-6.062 3.5z\"/>\n                        </svg>\n                    </button>\n                </li>\n                <li class=\"nav-item\">\n                    <a class=\"nav-link\" href=\"#\">\n                        <i class=\"bi bi-nut\"></i>\n                        <div id=\"navbar-username\">Username</div>\n                    </a>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>\n\n<div class=\"modal\" id=\"user-setting-dialog\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"editModalLabel\"\n     aria-hidden=\"true\" style=\"display: none\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h5 class=\"modal-title\" id=\"username-modal-title\">Set Username</h5>\n            </div>\n            <div class=\"modal-body\">\n                <div class=\"form-group\">\n                    <label for=\"username-input\">Username:</label>\n                    <input type=\"text\" class=\"form-control\" id=\"user-setting-input\">\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-secondary\" id=\"user-setting-cancel\" data-dismiss=\"modal\">Cancel\n                </button>\n                <button type=\"button\" class=\"btn btn-primary\" id=\"user-setting-submit\">Submit</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n\n<div class=\"card mb-3 h-auto\" style=\"max-width: 100%;\">\n    <div class=\"row no-gutters\">\n        <div class=\"col-md-4\">\n            <img src=\"/uploads/1683984225607.png\" class=\"card-img\" alt=\"Bird\" height=\"300\" width=\"150\">\n        </div>\n        <div class=\"col-md-8\">\n            <div class=\"card-body\">\n                <h5 class=\"card-title\">ss</h5>\n                <p class=\"card-text\">\n                    <span class=\"datetime\">2023-06-26</span><br>\n                    <span class=\"username\">DPR</span>\n                </p>\n            </div>\n        </div>\n    </div>\n</div>\n<div class=\"main\">\n    <div class=\"left\">\n        <table class=\"table table-borderless\">\n            <tbody>\n            <tr>\n                <th scope=\"row\"><h4>Location:</h4></th>\n                <td class=\"text-left\">\n                    <div></div>\n                </td>\n            </tr>\n            <tr>\n                <th scope=\"row\"><h4>Map:</h4></th>\n                <td class=\"text-left\">\n                    <iframe id=\"iframe-record-map\"\n                            data-record-lat=\"53.380446826780044\"\n                            data-record-lng=\"-1.4798542276000926\"\n                            width=\"300\"\n                            height=\"300\"\n                            frameborder=\"0\" style=\"border:0\"\n                            src=\" \" allowfullscreen>\n                    </iframe>\n                </td>\n            </tr>\n            <tr>\n                <th scope=\"row\"><h4>Describe:</h4></th>\n                <td class=\"text-left\">Some kinda bird</td>\n            </tr>\n            <tr>\n                <th scope=\"row\"><h4>Identification:</h4></th>\n                <td class=\"text-left\">ss</td>\n            </tr>\n            <tr>\n                <th scope=\"row\"><h4>Wiki:</h4></th>\n                <td class=\"text-left\"></td>\n            </tr>\n            </tbody>\n        </table>\n    </div>\n    <div id=\"chat_board_container\">\n        \n    </div>\n    <div class=\"row\">\n        <div class=\"col\">\n            <div class=\"input-group mb-3\">\n                <textarea id=\"chat_input\" class=\"form-control\" placeholder=\"Please Input Here\"\n                          aria-label=\"Please input here\"></textarea>\n            </div>\n        </div>\n    </div>\n    <div class=\"row\">\n        <div class=\"col\">\n            <div class=\"input-group\">\n                <div class=\"text-right\">\n                    <button id=\"chat_input_btn\" class=\"btn btn-primary\" type=\"button\">Send</button>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n</body>\n</html>"
+            }
+          },
+          "304": {}
+        },
+        "tags": [],
+        "produces": [
+          "text/html"
+        ]
+      }
+    },
+    "/setUser": {
+      "post": {
+        "summary": "/setUser",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/saveSighting": {
+      "post": {
+        "summary": "/saveSighting",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/saveChatContent": {
+      "post": {
+        "summary": "/saveChatContent",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/sightDetails": {
+      "get": {
+        "summary": "/sightDetails",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/saveChatList": {
+      "post": {
+        "summary": "/saveChatList",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/insertToMongo": {
+      "post": {
+        "summary": "/insertToMongo",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "/users",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {},
+        "tags": []
+      }
+    }
+  },
+  "swagger": "2.0",
+  "tags": []
+}

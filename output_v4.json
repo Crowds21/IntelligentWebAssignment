@@ -1,0 +1,14 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "intelligentweb",
+    "version": "0.0.0",
+    "description": "Specification JSONs:."
+  },
+  "servers"
+    :[{
+      "url": "http://localhost:3000"
+    }
+  ],
+  "tags": []
+}
