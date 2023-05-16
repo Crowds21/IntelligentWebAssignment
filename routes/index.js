@@ -651,20 +651,18 @@ router.post("/saveChatList", function (req, res, next) {
  */
  
 router.post("/insertToMongo", async function (req, res, next) {
-  // 获取base64字符串
-  const base64String = req.body[0].image;
-
-  // 转换为Buffer对象
+  // Get the base64 string  const base64String = req.body[0].image;
+  // Convert to Buffer object
   const buffer = base64ToBuffer(base64String);
 
-  // 获取文件名和扩展名
+  // Get filename and extension
   const fileName = Date.now() + ".jpg";
-  // 将Buffer对象保存为文件
+  // Save the Buffer object as a file
   console.log("start to generated th filename");
   const filepath = path.join("public", "uploads", fileName);
   await fs.writeFile(filepath, buffer, (err) => {
     if (err) {
-      // 处理错误
+      // handle errors
       return next(err);
     }
     // Save to MongoDB
