@@ -5,126 +5,138 @@
 <%- include ('./component/navbar.ejs') %>
 <%- include ('./component/user-setting.ejs') %>
 
-
-<div class="card mb-3 h-auto" id="sight-info-card" data-device-id="<%= record.device_id %>" style="max-width: 100%;">
-    <div class="row no-gutters">
-        <div class="col-md-4">
-            <img src="/uploads/<%= record.image %>" class="card-img" alt="Bird" height="300" width="150">
-        </div>
-        <div class="col-md-8">
-            <div class="card-body">
-                <div class="col">
-                    <h5 id="sight-card-title" class="card-title "><%= record.identification %></h5>
-                    <span class="datetime card-text">Date:<%= record.date %></span><br>
-                    <span class="username card-text">User:<%= record.user_name %></span><br>
-                    <span class="description card-text">Description:<%= record.description %></span><br>
-                    <span class="location card-text">Location:<%= record.location %></span><br>
+<div class="container my-5">
+    <div class="card mb-3 h-auto" id="sight-info-card" data-device-id="<%= record.device_id %>"
+         style="max-width: 100%;">
+        <div class="row no-gutters">
+            <div id="card-image-container" class="col-md-4" style="padding-right: 0">
+                <img src="/uploads/<%= record.image %>" class="card-img" alt="Bird" height="300" width="150">
+            </div>
+            <div class="col-md-8" style="padding-left: 0">
+                <div class="card-body container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 id="sight-card-title" class="card-title "><%= record.identification %></h5>
+                            <span class="datetime card-text">Date:<%= record.date %></span><br>
+                            <span class="username card-text">User:<%= record.user_name %></span><br>
+                            <span class="description card-text">Description:<%= record.description %></span><br>
+                            <span class="location card-text">Location:<%= record.location %></span>
+                        </div>
+                        <div class="col-md-6">
+                            <iframe id="iframe-record-map" class="col"
+                                    data-record-lat="<%= record.loc.lat %>"
+                                    data-record-lng="<%= record.loc.lng %>"
+                                    width="200"
+                                    height="200"
+                                    frameborder="0" style="border:0"
+                                    src=" " allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                    <br>
+                    <button id="update-sight-btn" class="btn btn-primary mr-2" onclick="showModal()"
+                            style="display: none">
+                        Update Identification
+                    </button>
                 </div>
-
-                <iframe id="iframe-record-map" class="col"
-                        data-record-lat="<%= record.loc.lat %>"
-                        data-record-lng="<%= record.loc.lng %>"
-                        width="200"
-                        height="200"
-                        frameborder="0" style="border:0"
-                        src=" " allowfullscreen>
-                </iframe>
-                <br>
-                <button id="update-sight-btn" class="btn btn-primary mr-2" onclick="showModal()" style="display: none">
-                    Update Identification
-                </button>
             </div>
         </div>
     </div>
-</div>
-<div class="main">
-    <div class="left">
-        <table class="table table-borderless">
-            <tbody>
-            <tr>
-                <th scope="row"><h5>Describe:</h5></th>
-                <td class="text-left"><%= birdInfo.description %></td>
-            </tr>
-            <tr>
-                <th scope="row"><h5>ScientificName:</h5></th>
-                <td class="text-left"><a href="<%= birdInfo.scientificName %>"><%= birdInfo.scientificName %></a></td>
-            </tr>
-            <tr>
-                <th scope="row"><h5>Wiki:</h5></th>
-                <td class="text-left"><a href="<%= birdInfo.uri %>"><%= birdInfo.uri %></a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div id="chat_board_container" class="scrollable-div">
-        <% for (let i = 0; i < messages.length; i++) { %>
-            <div class="row table-secondary">
-                <div class="col-md-3">
-                    <h2 class="username-style"> <%= messages[i].sender_id %> </h2>
+    <div class="main">
+        <div class="left">
+            <table class="table table-borderless">
+                <tbody>
+                <tr>
+                    <th scope="row"><h5>Describe:</h5></th>
+                    <td class="text-left"><%= birdInfo.description %></td>
+                </tr>
+                <tr>
+                    <th scope="row"><h5>ScientificName:</h5></th>
+                    <td class="text-left"><a href="<%= birdInfo.scientificName %>"><%= birdInfo.scientificName %></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><h5>Wiki:</h5></th>
+                    <td class="text-left"><a href="<%= birdInfo.uri %>"><%= birdInfo.uri %></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="chat_board_container" class="scrollable-div">
+            <% for (let i = 0; i < messages.length; i++) { %>
+                <div class="row table-secondary">
+                    <div class="col-md-3">
+                        <h2 class="username-style"> <%= messages[i].sender_id %> </h2>
+                    </div>
+                    <div class="col-md-8 py-2">
+                        <p class="description-style"><%= messages[i].content %></p>
+                    </div>
                 </div>
-                <div class="col-md-8 py-4">
-                    <p class="description-style"><%= messages[i].content %></p>
-                </div>
-            </div>
-        <% } %>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div class="input-group mb-3">
+                <hr>
+            <% } %>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="input-group mb-3">
                 <textarea id="chat_input" class="form-control" placeholder="Please Input Here"
                           aria-label="Please input here"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="input-group">
+                    <div class="text-right">
+                        <button id="chat_input_btn" class="btn btn-primary" type="button">Send</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <div class="input-group">
-                <div class="text-right">
-                    <button id="chat_input_btn" class="btn btn-primary" type="button">Send</button>
+
+    <div id="updateIdentification" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Update</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            onclick="closeModal()"></button>
                 </div>
+
+
+                <!--Update Identification-->
+                <form enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="mb-3" style="display: none">
+                            <label class="col-form-label">Id:</label>
+                            <input type="text" name="id" class="form-control" id="update-sight-idf-id"
+                                   value="<%= id %>">
+                        </div>
+                        <div class="mb-3" style="display: none">
+                            <label class="col-form-label">userName:</label>
+                            <input type="text" name="username" class="form-control" id="username"
+                                   value="<%= record.user_name %>">
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label">Identification:</label>
+                            <input name="identification" name="identification" class="form-control"
+                                   id="update-identification"
+                                   value="<%= record.identification %>">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">
+                            Close
+                        </button>
+                        <button type="button" onclick="updateIdentification()" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
 </div>
 
-<div id="updateIdentification" class="modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Update</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        onclick="closeModal()"></button>
-            </div>
 
-
-            <!--Update Identification-->
-            <form enctype="multipart/form-data">
-                <div class="modal-body">
-                    <div class="mb-3" style="display: none">
-                        <label class="col-form-label">Id:</label>
-                        <input type="text" name="id" class="form-control" id="update-sight-idf-id" value="<%= id %>">
-                    </div>
-                    <div class="mb-3" style="display: none">
-                        <label class="col-form-label">userName:</label>
-                        <input type="text" name="username" class="form-control" id="username"
-                               value="<%= record.user_name %>">
-                    </div>
-                    <div class="mb-3">
-                        <label class="col-form-label">Identification:</label>
-                        <input name="identification" name="identification" class="form-control" id="update-identification"
-                               value="<%= record.identification %>">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">
-                        Close
-                    </button>
-                    <button type="button" onclick="updateIdentification()" class="btn btn-primary">Save</button>
-                </div>
-            </form>
-
-        </div>
-    </div>
-</div>
 </body>
 </html>

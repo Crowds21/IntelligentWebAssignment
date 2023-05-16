@@ -112,17 +112,6 @@
         ]
       }
     },
-    "/setUser": {
-      "post": {
-        "summary": "/setUser",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {},
-        "tags": []
-      }
-    },
     "/saveSighting": {
       "post": {
         "summary": "/saveSighting",

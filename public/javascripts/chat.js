@@ -60,10 +60,11 @@ function writeOnHistory(user, content) {
                 <div class="col-md-3">
                     <h2 class="username-style"> ${user} </h2>
                 </div>
-                <div class="col-md-8 py-4">
+                <div class="col-md-8 py-2">
                     <p class="description-style">${content}</p>
                 </div>
             </div>
+            <hr>
     `
     let history = document.getElementById('chat_board_container');
     const parser = new DOMParser();

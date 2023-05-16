@@ -10,14 +10,12 @@
 
 div.card {
     height: 250px;
-    border-radius: 25px;
     border: 2px solid rgba(0, 0, 0, 0.2);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 div.card-body {
     background-color: #c7e6c8;
-    border-radius: 0 25px 25px 0;
     color: gray;
     padding: 10px;
     font-size: 15px;
@@ -36,7 +34,6 @@ div.card-body {
 
 #card-image {
     height: 250px;
-    border-radius: 25px;
     border: 2px solid rgba(0, 0, 0, 0.2);
 }
 
@@ -96,7 +93,6 @@ td.detail-style {
     height: 100px;
     padding-left: 50px;
     padding-top: 25px;
-    border-radius: 5px;
 }
 
 #create-btn {
@@ -109,7 +105,6 @@ div.odd, div.even {
     height: 200px;
     background-color: #f2f2f2;
     border-bottom: 1px solid #dee2e6;
-    border-radius: 5px;
 }
 
 div.even {
