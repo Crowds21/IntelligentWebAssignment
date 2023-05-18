@@ -26,7 +26,7 @@ Click the corresponding button to view the sorted records.
 Click the corresponding button to view the sorted records.Please note that all information is required.
 The user-related information is only stored in the local indexedDB and not saved on the server. Each user is assigned a unique deviceId, and the server uses this ID to determine the creator of the records.
 
-​![截屏2023-05-18 14.23.07](assets/截屏2023-05-18 14.23.07-20230518144204-0ck6d5c.png)​
+​![Create](assets/Create-20230518144204-0ck6d5c.png)​
 
 ## Detail Page
 
