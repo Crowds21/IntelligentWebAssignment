@@ -21,4 +21,4 @@ One of us switched his Github account, so some commit records may appear invisib
 ## Code documentation
 - Swagger
 - Code comment
-- (Key algorithms)[https://github.com/Crowds21/IntelligentWebAssignment/blob/main/doc/README.md]
+- [Key algorithms](https://github.com/Crowds21/IntelligentWebAssignment/blob/main/doc/README.md)
